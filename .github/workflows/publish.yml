@@ -1,9 +1,12 @@
 name: Render and Publish
 
+# Auto-deploy is DISABLED until the site is ready to go public.
+# To enable: change the `on` trigger below back to:
+#   push:
+#     branches: [main]
+#   workflow_dispatch:
 on:
-  push:
-    branches: [main]
-  workflow_dispatch:
+  workflow_dispatch:    # manual trigger only for now
 
 permissions:
   contents: write

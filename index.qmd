@@ -1,6 +1,6 @@
 ---
-title: "LGND Science"
-subtitle: "Technical posts on geospatial AI, embeddings, and foundation models"
+title: "ST — Science & Technology Lgndiary"
+subtitle: "A science and technology diary by LGND AI"
 listing:
   contents: posts
   sort: "date desc"
@@ -14,7 +14,7 @@ page-layout: full
 title-block-banner: false
 ---
 
-We publish technical notes at the intersection of **geospatial AI**, **foundation model embeddings**, and **uncertainty estimation**.
+Technical notes at the intersection of **geospatial AI**, **foundation model embeddings**, and **uncertainty estimation** — by [LGND AI](https://lgnd.ai) / [EarthLegend](https://github.com/EarthLegend).
 
 Our core approach: *linear probes on frozen embeddings* — revealing what signals are already linearly accessible in a model's internal representations, without retraining anything.
 
