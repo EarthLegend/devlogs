@@ -3,9 +3,9 @@ project:
   output-dir: _site
 
 website:
-  title: "LGND Science"
-  description: "Technical posts on geospatial AI, embeddings, and foundation models — by EarthLegend"
-  site-url: "https://blog.lgnd.ai"
+  title: "ST — Science & Technology Lgndiary"
+  description: "A science and technology diary by LGND AI — geospatial AI, embeddings, and foundation models"
+  site-url: "https://st.lgnd.ai"
   favicon: assets/favicon.png
   google-analytics: "G-XXXXXXXXXX"
   repo-url: https://github.com/EarthLegend/blog
@@ -13,6 +13,9 @@ website:
 
   navbar:
     left:
+      - text: "ST"
+        href: index.qmd
+        aria-label: "ST — Science & Technology Lgndiary"
       - text: "Posts"
         href: index.qmd
       - text: "About"

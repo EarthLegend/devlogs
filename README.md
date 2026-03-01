@@ -1,9 +1,14 @@
-# LGND Science
+# ST — Science & Technology Lgndiary
 
-Technical posts on geospatial AI, embeddings, and foundation models.
+A science and technology diary by LGND AI. Technical posts on geospatial AI,
+embeddings, and foundation models.
 
-Live at: **[blog.lgnd.ai](https://blog.lgnd.ai)**
-(while DNS propagates: [earthlegend.github.io/blog](https://earthlegend.github.io/blog))
+> **Status: private / in preparation.** Not yet published.
+> To publish: make repo public, enable GitHub Pages, re-enable auto-deploy in
+> `.github/workflows/publish.yml`.
+
+Live at (when published): **[st.lgnd.ai](https://st.lgnd.ai)**
+(GitHub Pages fallback: [earthlegend.github.io/blog](https://earthlegend.github.io/blog))
 
 Built with [Quarto](https://quarto.org). Posts are Jupyter notebooks. Deploys automatically to GitHub Pages on every push to `main`.
 
