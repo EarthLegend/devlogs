@@ -1,0 +1,21 @@
+---
+title: "LGND Science"
+subtitle: "Technical posts on geospatial AI, embeddings, and foundation models"
+listing:
+  contents: posts
+  sort: "date desc"
+  type: default
+  categories: true
+  sort-ui: false
+  filter-ui: false
+  fields: [date, title, description, categories, image]
+  date-format: "YYYY-MM-DD"
+page-layout: full
+title-block-banner: false
+---
+
+We publish technical notes at the intersection of **geospatial AI**, **foundation model embeddings**, and **uncertainty estimation**.
+
+Our core approach: *linear probes on frozen embeddings* — revealing what signals are already linearly accessible in a model's internal representations, without retraining anything.
+
+---

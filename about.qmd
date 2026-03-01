@@ -1,0 +1,32 @@
+---
+title: "About LGND Science"
+---
+
+## Who we are
+
+**LGND AI** (pronounced "legend") is a research and engineering team working on geospatial foundation models and their applications to Earth observation, climate, and environmental monitoring.
+
+**EarthLegend** is our open-science arm — publishing code, experiments, and technical notes that support reproducibility and community research.
+
+## What we publish here
+
+Short technical posts, typically backed by a Jupyter notebook you can run in Colab. We focus on:
+
+- **Geospatial foundation models** (Clay, Prithvi, OLMo-Earth, and others)
+- **Embedding analysis** — what information lives in frozen model representations
+- **Uncertainty and difficulty estimation** — cheap proxies for knowing when a model is out of its depth
+- **Practical applications** — OOD detection, data quality filtering, active learning
+
+## Our approach
+
+We use **linear probes on frozen embeddings** as a primary analytical tool. A linear probe is the simplest possible test: can a linear model read a signal from a frozen representation? If yes, the signal is already there — the model learned it as a side effect of its training objective, not because we asked it to. This keeps our findings interpretable and our models unchanged.
+
+## Code and reproducibility
+
+Every post links to a notebook. Every result in a notebook either runs in the post itself (Quarto `freeze: auto`) or links to a Colab badge you can click to verify. We aim for < 5 minutes on a free Colab GPU to reproduce each core result.
+
+Repository: [github.com/EarthLegend](https://github.com/EarthLegend)
+
+## Contact
+
+Bruno Sánchez-Andrade Nuño · [brunosan.eu](https://brunosan.eu) · [@brunosan](https://twitter.com/brunosan)

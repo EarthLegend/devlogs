@@ -1,0 +1,59 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "LGND Science"
+  description: "Technical posts on geospatial AI, embeddings, and foundation models — by EarthLegend"
+  site-url: "https://blog.lgnd.ai"
+  favicon: assets/favicon.png
+  google-analytics: "G-XXXXXXXXXX"
+  repo-url: https://github.com/EarthLegend/blog
+  repo-actions: [edit, issue]
+
+  navbar:
+    left:
+      - text: "Posts"
+        href: index.qmd
+      - text: "About"
+        href: about.qmd
+    right:
+      - icon: github
+        href: https://github.com/EarthLegend
+        aria-label: GitHub
+      - icon: twitter
+        href: https://twitter.com/brunosan
+        aria-label: Twitter
+
+  page-footer:
+    center: "© LGND AI · Posts are [CC-BY](https://creativecommons.org/licenses/by/4.0/) · Code is [MIT](https://opensource.org/licenses/MIT)"
+
+  search: true
+
+  comments:
+    # Utterances can be enabled here later:
+    # utterances:
+    #   repo: EarthLegend/blog
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-copy: true
+    code-tools: true
+    highlight-style: github
+    fig-align: center
+    fig-cap-location: bottom
+    number-sections: false
+
+execute:
+  freeze: auto
+  cache: true
+
+author:
+  name: Bruno Sánchez-Andrade Nuño
+  url: https://brunosan.eu
+  affiliation: LGND AI / EarthLegend
