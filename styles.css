@@ -1,0 +1,64 @@
+/* LGND Science — minimal style overrides on cosmo theme */
+
+/* Typography */
+body {
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+h1, h2, h3 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+
+/* Make figures breathe */
+figure {
+  margin: 2rem auto;
+}
+
+figcaption {
+  font-size: 0.85em;
+  color: #666;
+  text-align: center;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* Code blocks */
+pre.sourceCode {
+  border-left: 3px solid #0d6efd;
+  font-size: 0.88em;
+}
+
+/* Callout boxes — used for key findings */
+.callout {
+  border-radius: 6px;
+}
+
+/* Result / key-number highlight */
+.key-result {
+  background: #f0f7ff;
+  border-left: 4px solid #0d6efd;
+  padding: 0.75rem 1rem;
+  margin: 1.5rem 0;
+  border-radius: 0 6px 6px 0;
+  font-size: 1.05em;
+}
+
+/* Listing cards */
+.quarto-post .thumbnail img {
+  border-radius: 4px;
+}
+
+/* Footer */
+.nav-footer {
+  font-size: 0.85em;
+  color: #888;
+}
+
+/* Navbar brand */
+.navbar-brand {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
