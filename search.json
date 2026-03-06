@@ -1,5 +1,19 @@
 [
   {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "ST (Science & Technology) is a joint research blog by LGND AI and Clay — sharing research notes, technical deep-dives, and reproducible experiments at the frontier of geospatial AI and foundation models.\nOur goal is to contribute openly to a better geoAI ecosystem: publishing what we learn, what surprises us, and what we think others should know.\nWhat you’ll find here: technical posts with code, novel findings from our research, and honest notes from the lab bench."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Lgnd.ai Devlogs",
+    "section": "",
+    "text": "Research notes and devlogs from LGND AI and Clay.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nELLE: Embeddings Linearly contain their Loss Estimate\n\n\n\n\n\n\nembeddings\n\n\nuncertainty\n\n\ngeospatial\n\n\nfoundation-models\n\n\nself-supervised\n\n\n\nFoundation model CLS embeddings linearly encode their own per-sample pretraining loss – readable by a Ridge probe in 1 us, with no labels and no extra forward passes. Validated across 20 models and 6 modalities.\n\n\n\n\n\n2026-03-01\n\n\n\n\n\n\nNo matching items"
+  },
+  {
     "objectID": "posts/2026-03-01-self-aware-embeddings/index.html",
     "href": "posts/2026-03-01-self-aware-embeddings/index.html",
     "title": "ELLE: Embeddings Linearly contain their Loss Estimate",
@@ -110,19 +124,5 @@
     "title": "ELLE: Embeddings Linearly contain their Loss Estimate",
     "section": "",
     "text": "Foundation model CLS embeddings linearly predict pretraining loss at inference time, without a decoder. A Ridge probe achieves Pearson r = 0.50–0.99 across 19 models in 5 modalities. The signal is free — no architectural changes needed.\nThe signal is not exclusive to MAE-trained models. Contrastive (SatCLIP, r = 0.96 in-domain) and self-distillation (DINOv2, r = 0.72 cross-domain) models also encode it. This suggests it reflects visual complexity that the tested self-supervised backbones capture, regardless of pretraining objective.\nMeaningful pretraining is necessary. All tested forms of self-supervised pretraining produces the signal; the key common factor is that the model underwent meaningful pretraining.\nThe signal is holistically distributed. Random subsets of embedding dimensions predict difficulty as well as ordered prefixes — it is not Matryoshka-ordered.\nSample scaling matters. For some modalities (Text, Code), increasing N from 5k to 40k crosses the r ≥ 0.5 threshold with no model changes."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Lgnd.ai Devlogs",
-    "section": "",
-    "text": "Research notes and devlogs from LGND AI and Clay.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nELLE: Embeddings Linearly contain their Loss Estimate\n\n\n\n\n\n\nembeddings\n\n\nuncertainty\n\n\ngeospatial\n\n\nfoundation-models\n\n\nself-supervised\n\n\n\nFoundation model CLS embeddings linearly encode their own per-sample pretraining loss – readable by a Ridge probe in 1 us, with no labels and no extra forward passes. Validated across 20 models and 6 modalities.\n\n\n\n\n\n2026-03-01\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "ST (Science & Technology) is a joint research blog by LGND AI and Clay — sharing research notes, technical deep-dives, and reproducible experiments at the frontier of geospatial AI and foundation models.\nOur goal is to contribute openly to a better geoAI ecosystem: publishing what we learn, what surprises us, and what we think others should know.\nWhat you’ll find here: technical posts with code, novel findings from our research, and honest notes from the lab bench."
   }
 ]
