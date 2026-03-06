@@ -2,7 +2,7 @@
 title: "About"
 ---
 
-**ST** (Science & Technology) is a joint research blog by [LGND AI](https://lgnd.ai) and [Clay](https://madewithclay.org) — sharing research notes, technical deep-dives, and reproducible experiments at the frontier of geospatial AI and foundation models.
+**Devlogs** is a joint research blog by [LGND AI](https://lgnd.ai) and [Clay](https://madewithclay.org) — sharing research notes, technical deep-dives, and reproducible experiments at the frontier of geospatial AI and foundation models.
 
 Our goal is to contribute openly to a better geoAI ecosystem: publishing what we learn, what surprises us, and what we think others should know.
 
