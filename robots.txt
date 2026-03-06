@@ -1,1 +1,1 @@
-Sitemap: https://st.lgnd.ai/sitemap.xml
+Sitemap: https://earthlegend.github.io/devlogs/sitemap.xml

@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2026-03-01">
 <meta name="description" content="Foundation model CLS embeddings linearly encode their own per-sample pretraining loss – readable by a Ridge probe in 1 us, with no labels and no extra forward passes. Validated across 20 models and 6 modalities.">
 
-<title>ELLE: Embeddings Linearly contain their Loss Estimate – Lgnd.ai — Science &amp; Technology devlogs</title>
+<title>ELLE: Embeddings Linearly contain their Loss Estimate – Lgnd.ai — Devlogs</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -155,7 +155,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">Lgnd.ai — Science &amp; Technology devlogs</span>
+    <span class="navbar-title">Lgnd.ai — Devlogs</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -237,7 +237,7 @@ window.Quarto = {
   </ul></li>
   <li><a href="#note-on-ai-use" id="toc-note-on-ai-use" class="nav-link" data-scroll-target="#note-on-ai-use">Note on AI use</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.dev/EarthLegend/st/blob/main/posts/2026-03-01-self-aware-embeddings/index.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EarthLegend/st/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.dev/EarthLegend/devlogs/blob/main/posts/2026-03-01-self-aware-embeddings/index.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EarthLegend/devlogs/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-other-links"><h2>Other Links</h2><ul><li><a href="https://raw.githubusercontent.com/EarthLegend/devlogs/main/posts/2026-03-01-self-aware-embeddings/index.ipynb"><i class="bi bi-download"></i>Download Notebook</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content">
@@ -291,7 +291,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
 <p>Self-supervised foundation models (masked autoencoders, denoising autoencoders, contrastive learners) produce CLS embeddings from which a simple Ridge regression can predict the model’s own per-sample pretraining loss — <strong>without running the decoder at inference time</strong>. We call this the <em>ELLE signal</em>: Embeddings Linearly contain their Loss Estimate.</p>
 <p>Across 19 models spanning image, audio, text, code, and geospatial modalities, the probe achieves <strong>Pearson r = 0.50–0.99</strong> on held-out data (r ≥ 0.5 = Cohen’s “large” effect size, 25%+ variance explained). Once the linear probe is calculated, we can retrieve the loss from any embedding. The probe adds ~1 μs of overhead per sample, and this loss estimation needs no architectural changes.</p>
-<p><strong>Surprising finding:</strong> the signal is not exclusive to reconstruction-pretrained models. Contrastive (SatCLIP, r = 0.96 in-domain) and self-distillation (DINOv2, r = 0.72 cross-domain) models also carry it. This suggests the ELLE signal captures <strong>visual complexity</strong> that any rich self-supervised backbone encodes, regardless of the pretraining objective.</p>
+<p><strong>Surprising finding:</strong> the signal is not exclusive to reconstruction-pretrained models. Contrastive (SatCLIP, r = 0.96 in-domain) and self-distillation (DINOv2, r = 0.72 cross-domain) models also carry it. This suggests the ELLE signal captures <strong>visual complexity</strong> that sufficiently trained self-supervised backbones tend to encode, regardless of the pretraining objective.</p>
 <p>Moreover, the signal is holistically distributed across embedding dimensions (even on Matryoshka embeddings), and for some modalities (Text, Code) crosses the r ≥ 0.5 threshold purely by scaling from N=5k to N=40k samples.</p>
 <p><strong>Practical value:</strong> once you have 1k–40k (embedding, loss) pairs from your training data, you get a free per-sample difficulty estimate at inference — useful for routing, monitoring, and data quality assessment.</p>
 <p><strong>For practitioners</strong>: ELLE gives you a per-sample difficulty score from any foundation model embedding — no decoder, no labels, no retraining. Train a Ridge probe once (~1 minute) and score millions of samples at inference speed. Use cases: data curation, quality filtering, active learning, and difficulty-based routing. Note: the probe correlation is a <em>population-level</em> statistic — models with r &gt; 0.9 yield per-sample informative scores, while models near r ≈ 0.5 are useful for aggregate ranking and cohort analysis rather than individual-sample precision.</p>
@@ -1495,7 +1495,7 @@ Code (CodeBERT): r = 0.4789  N = 40,000</code></pre>
 <section id="why-a-linear-model" class="level3">
 <h3 class="anchored" data-anchor-id="why-a-linear-model">Why a Linear Model?</h3>
 <p>We deliberately restrict the probe to a simple Ridge regression (a single matrix multiplication: <span class="math inline">\(W \cdot \text{CLS} + b\)</span>) rather than a deep neural network or non-linear MLP.</p>
-<p><strong>This is a critical design choice for deployment:</strong> 1. <strong>Computational Speed:</strong> A linear probe adds negligible overhead at inference time (~2 μs per sample amortized in batch, validated in Section 10). Evaluating it is virtually free once you have the embedding. 2. <strong>Training Efficiency:</strong> A Ridge regression has a closed-form solution and trains in milliseconds on CPU, even for <span class="math inline">\(N=40,000\)</span>. It requires no GPU, no learning rate tuning, and no iterative epochs. 3. <strong>Interpretability &amp; Extracted Signal:</strong> A deep MLP could simply memorize complex patterns or learn a new downstream task. By restricting the probe to be linear, we mathematically prove that the pretraining loss is already linearly separable and explicitly encoded in the embedding dimensions, not generated by post-hoc non-linear transformations.</p>
+<p><strong>This is a critical design choice for deployment:</strong> 1. <strong>Computational Speed:</strong> A linear probe adds negligible overhead at inference time (~2 μs per sample amortized in batch, validated in Section 10). Evaluating it is virtually free once you have the embedding. 2. <strong>Training Efficiency:</strong> A Ridge regression has a closed-form solution and trains in milliseconds on CPU, even for <span class="math inline">\(N=40,000\)</span>. It requires no GPU, no learning rate tuning, and no iterative epochs. 3. <strong>Interpretability &amp; Extracted Signal:</strong> A deep MLP could simply memorize complex patterns or learn a new downstream task. By restricting the probe to be linear, we provide strong evidence that the pretraining loss is already linearly separable and explicitly encoded in the embedding dimensions, not generated by post-hoc non-linear transformations.</p>
 </section>
 </section>
 <section id="image-modality-vit-mae-on-cifar-10" class="level2">
@@ -1903,7 +1903,7 @@ Note: text/code prefer higher alpha (smoother loss landscape than images).</code
 </section>
 <section id="beyond-reconstruction-the-signal-generalizes-across-ssl-paradigms" class="level2">
 <h2 class="anchored" data-anchor-id="beyond-reconstruction-the-signal-generalizes-across-ssl-paradigms">7. Beyond Reconstruction: The Signal Generalizes Across SSL Paradigms</h2>
-<p>We initially hypothesized that the ELLE signal was specific to reconstruction- pretrained models (MAE, denoising). Testing non-MAE models reveals a broader finding: <strong>any rich self-supervised backbone captures the signal</strong>, with reconstruction pretraining amplifying it.</p>
+<p>We initially hypothesized that the ELLE signal was specific to reconstruction- pretrained models (MAE, denoising). Testing non-MAE models reveals a broader finding: <strong>the tested self-supervised backbones all capture the signal</strong>, with reconstruction pretraining amplifying it.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 25%">
@@ -1940,7 +1940,7 @@ Note: text/code prefer higher alpha (smoother loss landscape than images).</code
 </tr>
 </tbody>
 </table>
-<p>This is a <strong>stronger finding</strong> than “MAE-specific encoding.” The ELLE signal reflects visual complexity that any sufficiently trained backbone captures. Reconstruction objectives calibrate and amplify it, but don’t create it. The true requirement is meaningful pretraining of any kind.</p>
+<p>This is a <strong>stronger finding</strong> than “MAE-specific encoding.” The ELLE signal reflects visual complexity that any sufficiently trained backbone captures. Reconstruction objectives calibrate and amplify it, but don’t create it. The key common factor appears to be meaningful pretraining.</p>
 <div id="48d7ef3f" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2026-03-05T20:30:29.379273Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-05T20:30:29.379169Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-05T20:30:30.061029Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-05T20:30:30.060819Z&quot;}" data-papermill="{&quot;duration&quot;:0.716162,&quot;end_time&quot;:&quot;2026-03-03T21:22:36.260190&quot;,&quot;exception&quot;:false,&quot;start_time&quot;:&quot;2026-03-03T21:22:35.544028&quot;,&quot;status&quot;:&quot;completed&quot;}" data-tags="[&quot;hide-input&quot;]" data-execution_count="16">
 <details class="code-fold">
 <summary>Code</summary>
@@ -2047,7 +2047,7 @@ the full spectrum of modern foundation models.</code></pre>
 <h2 class="anchored" data-anchor-id="is-the-signal-spread-across-all-dimensions">8. Is the Signal Spread Across All Dimensions?</h2>
 <p>A key mechanistic question: is the difficulty signal <strong>distributed</strong> across the embedding dimensions, or concentrated in the first few?</p>
 <p>This matters especially for models that use <strong>Matryoshka embeddings</strong>. Matryoshka representation learning (Kusupati et al., 2022) is a training technique that forces the <em>first</em> N dimensions of an embedding to be useful on their own — so you can truncate the embedding (e.g., use only 64 of 768 dims) for cheaper storage and search, and still get good results. Some modern models (e.g., OpenAI’s text-embedding-3, Nomic) use this approach.</p>
-<p>If the difficulty signal were concentrated in the first few Matryoshka-ordered dimensions, that would mean truncated embeddings still carry the signal — good for practical deployment. If it’s spread uniformly, then any random subset of dimensions works equally well, but you need a minimum number of them.</p>
+<p>If the difficulty signal were concentrated in the first few Matryoshka-ordered dimensions, that would mean truncated embeddings still carry the signal — good for practical deployment. If it’s spread uniformly, then random subsets of dimensions tend to work comparably, but you need a minimum number of them.</p>
 <p>We test this two ways: 1. <strong>Prefix:</strong> use only the first N dimensions (e.g., 64 of 768) 2. <strong>Random subset:</strong> use N randomly chosen dimensions. We do this several times and calculate the mean and stdev.</p>
 <p>If the signal were Matryoshka-structured, prefix would strongly outperform random subsets. If it’s uniformly distributed, they should perform similarly.</p>
 <div id="65d1e638" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2026-03-05T20:30:30.247180Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-05T20:30:30.247099Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-05T20:33:24.298761Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-05T20:33:24.298570Z&quot;}" data-papermill="{&quot;duration&quot;:151.171538,&quot;end_time&quot;:&quot;2026-03-03T21:25:08.801568&quot;,&quot;exception&quot;:false,&quot;start_time&quot;:&quot;2026-03-03T21:22:37.630030&quot;,&quot;status&quot;:&quot;completed&quot;}" data-tags="[&quot;hide-input&quot;]" data-execution_count="18">
@@ -2682,8 +2682,8 @@ Linear probe (CLS)     r = 0.8028  (uses only CLS embedding, alpha=1000.0)
 <h2 class="anchored" data-anchor-id="key-takeaways">13. Key Takeaways</h2>
 <ol type="1">
 <li><p><strong>Foundation model CLS embeddings linearly predict pretraining loss at inference time, without a decoder.</strong> A Ridge probe achieves Pearson r = 0.50–0.99 across 19 models in 5 modalities. The signal is free — no architectural changes needed.</p></li>
-<li><p><strong>The signal is not exclusive to MAE-trained models.</strong> Contrastive (SatCLIP, r = 0.96 in-domain) and self-distillation (DINOv2, r = 0.72 cross-domain) models also encode it. This suggests it reflects visual complexity that any rich self-supervised backbone captures, regardless of pretraining objective.</p></li>
-<li><p><strong>Meaningful pretraining is necessary.</strong> Any form of self-supervised pretraining produces the signal; the key requirement is that the model was actually trained.</p></li>
+<li><p><strong>The signal is not exclusive to MAE-trained models.</strong> Contrastive (SatCLIP, r = 0.96 in-domain) and self-distillation (DINOv2, r = 0.72 cross-domain) models also encode it. This suggests it reflects visual complexity that the tested self-supervised backbones capture, regardless of pretraining objective.</p></li>
+<li><p><strong>Meaningful pretraining is necessary.</strong> All tested forms of self-supervised pretraining produces the signal; the key common factor is that the model underwent meaningful pretraining.</p></li>
 <li><p><strong>The signal is holistically distributed.</strong> Random subsets of embedding dimensions predict difficulty as well as ordered prefixes — it is not Matryoshka-ordered.</p></li>
 <li><p><strong>Sample scaling matters.</strong> For some modalities (Text, Code), increasing N from 5k to 40k crosses the r ≥ 0.5 threshold with no model changes.</p></li>
 </ol>
@@ -2694,6 +2694,7 @@ Linear probe (CLS)     r = 0.8028  (uses only CLS embedding, alpha=1000.0)
 <p>This exploration was done heavily using AI. As described, we were investigating losses with Clay and Sam from our team wondered if we could retrieve the loss from the embedding itself. We asked Claude Code to test the idea with a random forest and then with linear tools the same day. We then expanded using Claude Code and Google Antigravity to test with other geo models, then other domains, testing ablations, and slowly built up all sections of the paper with relatively little manual coding.</p>
 <p>This was based on several agentic instructions and tasks in batches, then left to download, implement, test, and create the figures and narrate findings. As results came back positive, they informed our initial Clay investigation. We then stopped and systematically reviewed the code, suggesting micro-changes and checks to ensure results were correct. We discovered several instances where the AI had produced placeholder outputs or run models incorrectly — for example, passing wrong input dimensions or silently substituting proxy metrics. It took substantial time to verify and fix these issues, but the human review process caught all of them before publication.</p>
 <p>Overall, this paper from idea to this notebook took one calendar week and roughly 1 day of focused developer thinking time. Every figure and number in this notebook has been verified against ground-truth model outputs by a human reviewer.</p>
+<p><a href="https://raw.githubusercontent.com/EarthLegend/devlogs/main/posts/2026-03-01-self-aware-embeddings/index.ipynb" download="ELLE-notebook.ipynb" class="btn btn-primary"><i class="bi bi-download"></i> Download this notebook</a></p>
 
 
 </section>
@@ -2840,7 +2841,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/st\.lgnd\.ai");
+      var filterRegex = new RegExp("https:\/\/earthlegend\.github\.io\/devlogs\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -3175,7 +3176,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>   
     <div class="nav-footer-center">
 <p>© LGND AI · Posts are <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY</a> · Code is <a href="https://opensource.org/licenses/MIT">MIT</a></p>
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/EarthLegend/st/blob/main/posts/2026-03-01-self-aware-embeddings/index.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EarthLegend/st/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/EarthLegend/devlogs/blob/main/posts/2026-03-01-self-aware-embeddings/index.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EarthLegend/devlogs/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
