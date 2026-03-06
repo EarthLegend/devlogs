@@ -3,19 +3,16 @@ project:
   output-dir: _site
 
 website:
-  title: "ST — Science & Technology Lgndiary"
+  title: "Lgnd.ai — Devlogs"
   description: "Research notes and devlogs from LGND AI and Clay"
-  site-url: "https://st.lgnd.ai"
+  site-url: "https://earthlegend.github.io/st/"
   favicon: assets/favicon.png
   google-analytics: "G-XXXXXXXXXX"
-  repo-url: https://github.com/EarthLegend/blog
+  repo-url: https://github.com/EarthLegend/st
   repo-actions: [edit, issue]
 
   navbar:
     left:
-      - text: "ST"
-        href: index.qmd
-        aria-label: "ST — Science & Technology Lgndiary"
       - text: "Posts"
         href: index.qmd
       - text: "About"
@@ -26,7 +23,7 @@ website:
         aria-label: GitHub
 
   page-footer:
-    center: "© LGND AI · Posts are [CC-BY](https://creativecommons.org/licenses/by/4.0/) · Code is [MIT](https://opensource.org/licenses/MIT)"
+    center: "© LGND AI · Posts are [CC-BY](https://creativecommons.org/licenses/by/4.0/) · Code is [MIT](https://opensource.org/licenses/MIT)"  
 
   search: true
 
