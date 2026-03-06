@@ -2,8 +2,9 @@
 title: "About"
 ---
 
-A joint devlog by LGND AI and Clay — research notes, technical findings, and quick experiments at the frontier of geospatial AI.
-Our small contribution to a better geoAI ecosystem.
+**ST** (Science & Technology) is a joint research blog by [LGND AI](https://lgnd.ai) and [Clay](https://madewithclay.org) — sharing research notes, technical deep-dives, and reproducible experiments at the frontier of geospatial AI and foundation models.
 
-**What we publish:** Technical posts, code and research notes.
+Our goal is to contribute openly to a better geoAI ecosystem: publishing what we learn, what surprises us, and what we think others should know.
+
+**What you'll find here:** technical posts with code, novel findings from our research, and honest notes from the lab bench.
 
