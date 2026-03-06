@@ -1,6 +1,6 @@
 ---
-title: "ST — Science & Technology Lgndiary"
-subtitle: "A science and technology diary by LGND AI"
+title: "Lgnd.ai Devlogs"
+subtitle: "Research notes and devlogs from LGND AI and Clay"
 listing:
   contents: posts
   sort: "date desc"
