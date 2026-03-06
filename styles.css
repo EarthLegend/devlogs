@@ -11,10 +11,6 @@ h1, h2, h3 {
   letter-spacing: -0.01em;
 }
 
-/* Widen the reading column slightly */
-.quarto-container {
-  max-width: 860px;
-}
 
 /* Make figures breathe */
 figure {
