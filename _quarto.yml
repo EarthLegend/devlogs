@@ -5,10 +5,10 @@ project:
 website:
   title: "Lgnd.ai — Devlogs"
   description: "Research notes and devlogs from LGND AI and Clay"
-  site-url: "https://earthlegend.github.io/st/"
+  site-url: "https://earthlegend.github.io/devlogs/"
   favicon: assets/favicon.png
   google-analytics: "G-XXXXXXXXXX"
-  repo-url: https://github.com/EarthLegend/st
+  repo-url: https://github.com/EarthLegend/devlogs
   repo-actions: [edit, issue]
 
   navbar:
