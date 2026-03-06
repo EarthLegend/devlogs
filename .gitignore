@@ -1,0 +1,5 @@
+/.quarto/
+_site/
+*.joblib
+posts/*/data/
+posts/*/SatCLIP/

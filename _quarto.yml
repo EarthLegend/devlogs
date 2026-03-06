@@ -4,7 +4,7 @@ project:
 
 website:
   title: "ST — Science & Technology Lgndiary"
-  description: "A science and technology diary by LGND AI — geospatial AI, embeddings, and foundation models"
+  description: "Research notes and devlogs from LGND AI and Clay"
   site-url: "https://st.lgnd.ai"
   favicon: assets/favicon.png
   google-analytics: "G-XXXXXXXXXX"
@@ -24,19 +24,13 @@ website:
       - icon: github
         href: https://github.com/EarthLegend
         aria-label: GitHub
-      - icon: twitter
-        href: https://twitter.com/brunosan
-        aria-label: Twitter
 
   page-footer:
     center: "© LGND AI · Posts are [CC-BY](https://creativecommons.org/licenses/by/4.0/) · Code is [MIT](https://opensource.org/licenses/MIT)"
 
   search: true
 
-  comments:
-    # Utterances can be enabled here later:
-    # utterances:
-    #   repo: EarthLegend/blog
+  comments: false
 
 format:
   html:
@@ -56,7 +50,3 @@ execute:
   freeze: auto
   cache: true
 
-author:
-  name: Bruno Sánchez-Andrade Nuño
-  url: https://brunosan.eu
-  affiliation: LGND AI / EarthLegend
