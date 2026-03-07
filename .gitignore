@@ -3,3 +3,17 @@ _site/
 *.joblib
 posts/*/data/
 posts/*/SatCLIP/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
