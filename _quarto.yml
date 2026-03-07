@@ -7,7 +7,6 @@ website:
   description: "Research notes and devlogs from LGND AI and Clay"
   site-url: "https://devlogs.lgnd.ai/"
   favicon: assets/favicon.png
-  google-analytics: "G-XXXXXXXXXX"
   repo-url: https://github.com/EarthLegend/devlogs
   repo-actions: [edit, issue]
 
