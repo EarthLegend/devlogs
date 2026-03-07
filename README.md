@@ -3,7 +3,7 @@
 A science and technology blog by LGND AI. Technical posts on geospatial AI,
 embeddings, and foundation models.
 
-Live at: **[earthlegend.github.io/devlogs](https://earthlegend.github.io/devlogs/)**
+Live at: **[devlogs.lgnd.ai](https://devlogs.lgnd.ai/)**
 
 Built with [Quarto](https://quarto.org). Posts are Jupyter notebooks. Deploys automatically to GitHub Pages on every push to `main`.
 
