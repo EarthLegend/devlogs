@@ -1,0 +1,106 @@
+<!-- Custom footer: dual LGND AI + Clay branding -->
+<style>
+.lgnd-footer a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+.lgnd-footer a:hover,
+.lgnd-footer a:focus-visible {
+  color: var(--color-accent, #2563eb);
+  outline-offset: 3px;
+}
+.lgnd-footer-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+}
+.lgnd-footer-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  line-height: 2;
+}
+.lgnd-footer-copyright {
+  max-width: 1200px;
+  margin: 2rem auto 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border, #e2e8f0);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+</style>
+
+<footer class="lgnd-footer" style="
+  background: var(--color-bg-subtle, #f8fafc);
+  border-top: 1px solid var(--color-border, #e2e8f0);
+  padding: 2.5rem 1rem;
+  font-family: var(--font-body, 'Inter', system-ui, sans-serif);
+  font-size: 0.875rem;
+  color: var(--color-text-muted, #64748b);
+">
+  <div class="lgnd-footer-grid">
+
+    <!-- Branding -->
+    <div>
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+        <!-- LGND AI logo (shows when asset is present) -->
+        <img
+          src="assets/logos/lgnd-ai-logo.svg"
+          alt="LGND AI"
+          height="24"
+          style="height:24px;width:auto;"
+          onerror="this.style.display='none'"
+        />
+        <!-- Clay logo (shows when asset is present) -->
+        <img
+          src="assets/logos/clay-logo.svg"
+          alt="Clay"
+          height="20"
+          style="height:20px;width:auto;"
+          onerror="this.style.display='none'"
+        />
+      </div>
+      <p style="margin:0;line-height:1.5;">
+        Research notes and devlogs from<br>
+        <strong>LGND AI</strong> and <strong>Clay</strong>.
+      </p>
+    </div>
+
+    <!-- Links -->
+    <div>
+      <p style="margin:0 0 0.5rem;font-weight:600;color:var(--color-text,#1e293b);">Links</p>
+      <ul class="lgnd-footer-nav">
+        <li><a href="index.qmd">Posts</a></li>
+        <li><a href="about.qmd">About</a></li>
+        <li><a href="https://github.com/EarthLegend">GitHub</a></li>
+      </ul>
+    </div>
+
+    <!-- Resources -->
+    <div>
+      <p style="margin:0 0 0.5rem;font-weight:600;color:var(--color-text,#1e293b);">Resources</p>
+      <ul class="lgnd-footer-nav">
+        <li><a href="https://lgnd.ai">LGND AI</a></li>
+        <li><a href="https://clay.earth">Clay</a></li>
+        <li><a href="https://github.com/EarthLegend/devlogs">Repository</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Copyright -->
+  <div class="lgnd-footer-copyright">
+    <span>© 2024–2026 LGND AI. Posts are
+      <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>
+      · Code is
+      <a href="https://opensource.org/licenses/MIT">MIT</a>.
+    </span>
+    <span>Built with <a href="https://quarto.org">Quarto</a>.</span>
+  </div>
+</footer>
+

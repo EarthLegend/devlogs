@@ -1,0 +1,23 @@
+<!-- Custom header: logo integration in Quarto navbar -->
+<!-- Place LGND AI logo at assets/logos/lgnd-ai-logo.svg (or .png) to activate -->
+<script>
+(function () {
+  document.addEventListener("DOMContentLoaded", function () {
+    var brand = document.querySelector(".navbar-brand");
+    if (!brand) return;
+
+    // Insert logo image before existing text, if the asset is present.
+    // Gracefully falls back to text-only if the image cannot be loaded.
+    var img = new Image();
+    img.src = "assets/logos/lgnd-ai-logo.svg";
+    img.alt = "LGND AI";
+    img.height = 28;
+    img.style.cssText =
+      "height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;";
+
+    img.onload = function () {
+      brand.insertBefore(img, brand.firstChild);
+    };
+  });
+})();
+</script>

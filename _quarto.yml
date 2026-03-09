@@ -32,6 +32,8 @@ format:
   html:
     theme: cosmo
     css: styles.css
+    include-in-header: "_header.html"
+    include-after-body: "_footer.html"
     toc: true
     toc-depth: 3
     code-fold: true
