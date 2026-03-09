@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://earthlegend.github.io/devlogs/about.html</loc>
-    <lastmod>2026-03-07T10:22:22.606Z</lastmod>
+    <loc>https://devlogs.lgnd.ai/about.html</loc>
+    <lastmod>2026-03-09T14:55:23.141Z</lastmod>
   </url>
   <url>
-    <loc>https://earthlegend.github.io/devlogs/index.html</loc>
-    <lastmod>2026-03-07T10:22:22.606Z</lastmod>
+    <loc>https://devlogs.lgnd.ai/index.html</loc>
+    <lastmod>2026-03-09T14:55:23.141Z</lastmod>
   </url>
   <url>
-    <loc>https://earthlegend.github.io/devlogs/posts/2026-03-01-self-aware-embeddings/index.html</loc>
-    <lastmod>2026-03-07T10:22:22.632Z</lastmod>
+    <loc>https://devlogs.lgnd.ai/posts/2026-03-01-self-aware-embeddings/index.html</loc>
+    <lastmod>2026-03-09T14:55:23.167Z</lastmod>
   </url>
 </urlset>
