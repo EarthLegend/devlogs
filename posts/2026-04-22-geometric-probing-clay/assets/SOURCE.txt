@@ -1,0 +1,22 @@
+Boat polygons — source raster
+=============================
+
+The 13 vessel polygons in boats.geojson were hand-digitised in QGIS against a
+single NAIP 4-band tile from the Microsoft Planetary Computer:
+
+  - Collection:    naip  (Microsoft Planetary Computer STAC)
+  - Tile ID:       ca_m_3712222_nw_10_060_20200524
+  - Acquisition:   2020-05-24, San Francisco Bay coastal anchorage (CA)
+  - Bands:         R, G, B, NIR (4-band, 0.6 m GSD)
+  - STAC endpoint: https://planetarycomputer.microsoft.com/api/stac/v1
+
+Each feature carries a `properties.source` field recording which legacy file
+the polygon was originally traced into ("boats", "moreboats", "evemore");
+this is preserved for provenance only — the extraction script
+(polygons_wide_to_canonicals.py) routes each polygon to a raster by centroid
+containment, not by the source label.
+
+To rebuild the wide TIFFs the polygons were traced on, run
+fetch_wide_4band_tiff.py and fetch_wide_4band_tiff_east.py from the post root
+— both pull the same source tile and crop to the anchorage windows used in
+the post.

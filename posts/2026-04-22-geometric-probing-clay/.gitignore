@@ -1,0 +1,135 @@
+# Regenerable chip grids (rebuilt by: phase_a_generate.py, extend_probes.py, position_multiscale.py, rot_by_scale.py)
+assets/variants/chips/
+assets/count_extended_chips/
+assets/position_multiscale_chips/
+assets/rot_by_scale_chips/
+assets/variants/rot_by_scale_*.npy
+assets/rot_by_scale_meta.json
+assets/rot_by_scale.json
+# Polygon-probe — regenerable; widget JSON + cross-product chips
+# (assets/widget_xprod_chips/) are tracked so the widget renders in builds.
+assets/polygon_probe.json
+assets/polygon_Y_gt.npy
+assets/polygon_Y_pred.npy
+assets/polygon_Y_sb_gt.npy
+assets/polygon_Y_sb_pred.npy
+assets/polygon_Y_sb_union.npy
+assets/polygon_sb_meta.npy
+assets/widget_xprod_emb.npy
+assets/widget_xprod_emb_done.npy
+assets/widget_xprod_meta.json
+# 4-band npz chips are embed-time inputs; browser loads JPGs (committed).
+# npz/png stay out of git (large, regenerable).
+assets/widget_xprod_chips/*.png
+assets/widget_xprod_chips/*.npz
+# 4-band canonical previews (debug)
+assets/_b1_*.png assets/_b1_*.jpg
+assets/canonical_meta_4b.json
+# 4-band chip pickups for variants/binding/etc — Phase 2 outputs (not yet used)
+assets/variants_4b/
+# (variants/, embeddings.npy, etc. — old; gone in this branch)
+# Older widget_chips/ from the per-axis schema is no longer referenced
+assets/widget_chips/
+# Binding probe — regenerable
+assets/binding_probe.json
+assets/binding_emb.npy
+assets/binding_emb_done.npy
+assets/binding_meta.json
+assets/binding_chips/
+
+# Regenerable derived artefacts (probe results, embeddings, per-chip scores).
+# Reproduce with: python probes.py && python council_fixes.py && python perm_all.py && python apply_elle.py && python elle_proxy.py && ...
+assets/variants/embeddings*.npy
+assets/variants/tokens_*.npy
+assets/variants/variants_meta.parquet
+assets/variants/variants_meta.csv
+assets/position_multiscale_emb.npy
+assets/position_multiscale_idx.npy
+assets/position_multiscale_meta.json
+assets/*_per_chip.npy
+assets/pca_spectrum.npy
+assets/probes_raw.pkl
+
+# All probe-result JSONs (regenerable from the .py scripts)
+assets/council_fixes.json
+assets/elle_clay_naip_check.json
+assets/elle_clay_summary.json
+assets/elle_exact_check.json
+assets/elle_proxy.json
+assets/exact_recreation.json
+assets/extend_probes.json
+assets/matryoshka_prefix.json
+assets/mlp_probe.json
+assets/pertoken_position.json
+assets/pertoken_scan.npy
+assets/perm_all.json
+assets/probes_v2.json
+assets/probes.json
+assets/reconstruction_check.json
+assets/retrieval_good_bad.json
+assets/water_ablation.json
+assets/count_extended_chips.json
+
+# Canonical knobs + boat metadata are tuning config, not a probe result - KEEP them:
+# assets/canonical_meta.json
+# assets/canonical_refs.json
+# assets/boat1_chip_metadata.json
+
+# Regenerable water backgrounds (rebuilt from native jpgs by phase_a_generate)
+assets/water_bg_*.png
+assets/water_bg_*.jpg
+
+# Iteration / diagnostic artifacts (never referenced by index.qmd)
+assets/_diag*
+assets/_rec_*
+assets/sheet_*
+assets/sweep_*
+assets/sweep[0-9]*
+assets/b2_pct*
+assets/master_review_grid*
+assets/canonical_review*
+assets/demo_*
+assets/boat2_sweep.jpg
+assets/source_chip_thumbnail.jpg
+
+# Compiled Python
+__pycache__/
+*.pyc
+
+# Quarto preview
+_preview/
+index_files/
+index.html
+
+# Backups / legacy
+*_jpg_v1/
+*.bak
+
+# 4-band variants — chips and embeddings regenerable from phase_a_4b.py + embed_4b.py
+assets/variants_4b/chips/
+assets/variants_4b/embeddings.npy
+assets/variants_4b/embeddings_done.npy
+
+# Wide-area 4-band TIFF (70 MB, regenerable via fetch_wide_4band_tiff.py).
+# The cropped per-boat tiffs (boat1/2_native_4b.tif) stay tracked for QGIS use.
+assets/anchorage_wide_4b.tif
+assets/_anchorage_wide_overview.jpg
+# 4-band binding probe — chips and embeddings regenerable
+assets/binding_4b_chips/
+assets/binding_4b_emb.npy
+assets/binding_4b_done.npy
+assets/binding_4b_meta.json
+# Widget full boat_06 cross-product — chips + embeddings + intermediate JSONs are
+# regenerable from widget_full_boat06.py; only widget_data_4b.json ships.
+assets/_w06_chips/
+assets/widget_full_boat06_emb.npy
+assets/widget_full_boat06_done.npy
+assets/widget_full_boat06_index.json
+assets/widget_full_boat06_pred.json
+# legacy widget data + chips (older 5-slider hull-aware build)
+assets/widget_chips_4b/
+assets/widget_pred_cache.json
+# overflow check intermediates
+assets/_overflow.npy
+assets/clipping_4b.json
+ELLE_4B

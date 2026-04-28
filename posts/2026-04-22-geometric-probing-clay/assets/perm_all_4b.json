@@ -1,0 +1,27 @@
+{
+  "rotation_4cls": {
+    "perm_p": NaN,
+    "perm_mean": NaN,
+    "real": 0.8841897233201582
+  },
+  "rotation_8bin": {
+    "perm_p": NaN,
+    "perm_mean": NaN,
+    "real": 0.8027956989247311
+  },
+  "position_9cls_fixed_scale": {
+    "perm_p": NaN,
+    "perm_mean": NaN,
+    "real": 0.4125
+  },
+  "scale_R2": {
+    "perm_p": NaN,
+    "perm_mean": NaN,
+    "real": 0.997742515585258
+  },
+  "count_R2": {
+    "perm_p": NaN,
+    "perm_mean": NaN,
+    "real": 0.9801187819123106
+  }
+}

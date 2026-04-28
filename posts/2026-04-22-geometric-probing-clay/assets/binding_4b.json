@@ -1,0 +1,12 @@
+{
+  "n_pairs": 16,
+  "swap_cos_mean": 0.999338798224926,
+  "swap_cos_std": 0.00016286656690348773,
+  "noise_cos_mean": 0.998583048582077,
+  "noise_cos_std": 0.000488558940723534,
+  "binding_probe_acc": 0.8714285714285716,
+  "binding_probe_perm_p": 0.0,
+  "binding_probe_perm_mean": 0.5223809523809524,
+  "delta_consistency_mean_pairwise_cos": 0.09262980352311084,
+  "single_object_boat1_vs_boat2_cos": 0.9484924850985408
+}

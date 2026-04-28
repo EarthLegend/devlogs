@@ -1,0 +1,38 @@
+[
+  {
+    "label": "single instance",
+    "n": 448,
+    "iou_probe": 0.180991530418396,
+    "iou_baseline": 0.06249178573489189
+  },
+  {
+    "label": "oblique single",
+    "n": 160,
+    "iou_probe": 0.45569413900375366,
+    "iou_baseline": 0.29980453848838806
+  },
+  {
+    "label": "multi N=2",
+    "n": 48,
+    "iou_probe": 0.2775608003139496,
+    "iou_baseline": 0.09396176785230637
+  },
+  {
+    "label": "multi N=3",
+    "n": 48,
+    "iou_probe": 0.26818278431892395,
+    "iou_baseline": 0.11838307231664658
+  },
+  {
+    "label": "multi N=5",
+    "n": 48,
+    "iou_probe": 0.2191084772348404,
+    "iou_baseline": 0.1227390393614769
+  },
+  {
+    "label": "multi N=8",
+    "n": 48,
+    "iou_probe": 0.22847233712673187,
+    "iou_baseline": 0.1265529841184616
+  }
+]
