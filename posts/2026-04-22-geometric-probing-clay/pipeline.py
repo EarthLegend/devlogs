@@ -655,26 +655,48 @@ def cmd_widget(secs=38.0):
             np.save(EMB, emb); np.save(DONE, np.array(sorted(done), np.int64))
             print(f"  widget [{time.time()-t0:.0f}s] {len(done)}/{n}", flush=True)
             if time.time()-t0 >= secs: return
-    # train within-object probes once on existing variants_4b data
-    df = pd.read_parquet(V/"variants_meta.parquet").reset_index(drop=True)
-    big = np.load(V/"embeddings.npy")
+    # 5-fold CV probes trained directly on the cross-product (honest within-object).
+    # Each chip's stored prediction comes from the fold where it was held out — no leakage.
     pl = {p:i for i,p in enumerate(POSITIONS)}
-    fits = {}
-    h_m = df.source_id.isin(BOATS+OBL); h_y = np.array([BOATS.index(s.replace("oblique_","")) for s in df[h_m].source_id])
-    fits["hull"] = ("clf", _clf().fit(big[df[h_m].chip_idx.to_numpy()], h_y), BOATS)
-    s_m = df.source_id.isin(BOATS) & df.scale.notna() & df.n_boats.isna()
-    fits["size"] = ("reg_log", _reg().fit(big[df[s_m].chip_idx.to_numpy()], np.log(df[s_m].scale.astype(float))), None)
-    c_m = df.source_id.isin(BOATS+["mixed_boats"]) & df.n_boats.notna()
-    fits["count"] = ("reg", _reg().fit(big[df[c_m].chip_idx.to_numpy()], df[c_m].n_boats.astype(float)), None)
-    p_m = df.source_id.isin(BOATS) & (df.scale==0.25) & df.rotation_deg.isin(ROT_CARD) & df.position.isin(POSITIONS)
-    fits["position"] = ("clf", _clf().fit(big[df[p_m].chip_idx.to_numpy()], np.array([pl[p] for p in df[p_m].position])), POSITIONS)
-    r_m = df.source_id.isin(BOATS+OBL) & df.scale.notna() & df.n_boats.isna() & df.rotation_deg.notna()
-    fits["rotation"] = ("clf", _clf().fit(big[df[r_m].chip_idx.to_numpy()], (df[r_m].rotation_deg.astype(int).to_numpy()//45)%8), ROT_8BIN)
-    cache = {axis: [None]*n for axis in fits}
-    for axis,(kind, mdl, levels) in fits.items():
-        yh = mdl.predict(emb)
-        for i, y in enumerate(yh):
-            cache[axis][i] = (levels[int(y)] if kind=="clf" else (float(np.exp(y)) if kind=="reg_log" else float(y)))
+    real = [i for i,r in enumerate(info["index"]) if r["count"]>0]
+    seen_uid = set(); real_uids = []
+    for i in real:
+        u = info["index"][i]["chip_uid"]
+        if u not in seen_uid: seen_uid.add(u); real_uids.append(u)
+    null_uid = next(r["chip_uid"] for r in info["index"] if r["count"]==0)
+    rec_by_uid = {r["chip_uid"]: r for r in info["index"]}
+    Xr = emb[real_uids]
+    y_size = np.array([rec_by_uid[u]["size"]  for u in real_uids], np.float32)
+    y_pos  = np.array([pl[rec_by_uid[u]["position"]] for u in real_uids])
+    y_rot  = np.array([(int(rec_by_uid[u]["rotation"])//45)%8 for u in real_uids])
+    all_uids_cnt = real_uids + [null_uid]
+    Xc = emb[all_uids_cnt]
+    y_cnt = np.array([rec_by_uid[u]["count"] for u in all_uids_cnt], np.float32)
+    def _cv_reg(X, y, log_y=False, alpha=1.0):
+        kf = KFold(5, shuffle=True, random_state=0); p = np.zeros(len(y), np.float64)
+        for tr, te in kf.split(X):
+            yt = np.log(np.clip(y[tr], 1e-3, None)) if log_y else y[tr]
+            m = _reg().fit(X[tr], yt); pp = m.predict(X[te])
+            p[te] = np.exp(pp) if log_y else pp
+        return p
+    def _cv_clf(X, y):
+        kf = KFold(5, shuffle=True, random_state=0); p = np.zeros(len(y), int)
+        for tr, te in kf.split(X):
+            p[te] = _clf().fit(X[tr], y[tr]).predict(X[te])
+        return p
+    size_p = _cv_reg(Xr, y_size, log_y=True)
+    cnt_p  = _cv_reg(Xc, y_cnt)
+    pos_p  = _cv_clf(Xr, y_pos)
+    rot_p  = _cv_clf(Xr, y_rot)
+    size_uid = {u: float(size_p[i]) for i,u in enumerate(real_uids)}
+    cnt_uid  = {u: float(cnt_p[i])  for i,u in enumerate(all_uids_cnt)}
+    pos_uid  = {u: POSITIONS[pos_p[i]] for i,u in enumerate(real_uids)}
+    rot_uid  = {u: int(ROT_8BIN[rot_p[i]]) for i,u in enumerate(real_uids)}
+    def _r2(y, p):
+        ss_res = float(np.sum((y-p)**2)); ss_tot = float(np.sum((y-np.mean(y))**2))
+        return 1 - ss_res/ss_tot if ss_tot>0 else float("nan")
+    size_R2 = _r2(y_size, size_p); cnt_R2 = _r2(y_cnt, cnt_p)
+    pos_acc = float((pos_p==y_pos).mean()); rot_acc = float((rot_p==y_rot).mean())
     pp = json.loads((A/"probes_4b.json").read_text())
     chips_out = []
     for r in info["index"]:
@@ -683,23 +705,27 @@ def cmd_widget(secs=38.0):
             "size":r["size"], "count":r["count"], "position":r["position"], "rotation":r["rotation"], "is_null":isn,
             "gt": {"hull":None if isn else HULL, "size":None if isn else r["size"], "count":float(r["count"]),
                     "position":None if isn else r["position"], "rotation":None if isn else r["rotation"]},
-            "pred":{"hull":cache["hull"][u], "size":cache["size"][u], "count":cache["count"][u],
-                     "position":cache["position"][u], "rotation":int(cache["rotation"][u]) if cache["rotation"][u] is not None else None}})
+            "pred":{"hull":HULL,
+                    "size": None if isn else size_uid[u],
+                    "count": cnt_uid[u],
+                    "position": None if isn else pos_uid[u],
+                    "rotation": None if isn else rot_uid[u]}})
     (A/"widget_data_4b.json").write_text(json.dumps({
         "axes":{
             "hull":{"levels":[HULL], "kind":"classification", "within_object_5fold":"—", "cross_hull_lobo":"—"},
             "size":{"levels":SIZES, "kind":"regression",
-                     "within_object_5fold":f"R² {pp['scale_R2']['R2']:.2f}", "cross_hull_lobo":f"R² {pp['lobo']['scale_R2']:.2f}"},
+                     "within_object_5fold":f"R² {size_R2:.2f}", "cross_hull_lobo":f"R² {pp['lobo']['scale_R2']:.2f}"},
             "count":{"levels":COUNTS, "kind":"regression",
-                      "within_object_5fold":f"R² {pp['count_R2']['R2']:.2f}", "cross_hull_lobo":f"R² {pp['lobo']['count_R2']:.2f}"},
+                      "within_object_5fold":f"R² {cnt_R2:.2f}", "cross_hull_lobo":f"R² {pp['lobo']['count_R2']:.2f}"},
             "position":{"levels":POSITIONS, "kind":"classification",
-                         "within_object_5fold":f"{pp['position_9cls_fixed_scale']['acc']:.2f}",
+                         "within_object_5fold":f"{pos_acc:.2f}",
                          "cross_hull_lobo":f"{pp['lobo']['position_9cls_fixed_scale']:.2f}"},
             "rotation":{"levels":ROT_8BIN, "kind":"classification",
-                         "within_object_5fold":f"{pp['rotation_8bin']['acc']:.2f}",
+                         "within_object_5fold":f"{rot_acc:.2f}",
                          "cross_hull_lobo":f"{pp['lobo']['rotation_8bin']:.2f}"},
         }, "chips":chips_out}, default=str))
-    print("wrote widget_data_4b.json")
+    print(f"wrote widget_data_4b.json (cross-product 5-fold CV: "
+          f"size R²={size_R2:.2f}, count R²={cnt_R2:.2f}, pos={pos_acc:.2f}, rot={rot_acc:.2f})")
 
 # ── CLI
 def main():
