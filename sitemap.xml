@@ -2,18 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://devlogs.lgnd.ai/index.html</loc>
-    <lastmod>2026-04-28T15:06:32.499Z</lastmod>
-  </url>
-  <url>
-    <loc>https://devlogs.lgnd.ai/posts/2026-03-01-self-aware-embeddings/index.html</loc>
-    <lastmod>2026-04-28T15:06:32.519Z</lastmod>
+    <lastmod>2026-04-28T15:56:27.937Z</lastmod>
   </url>
   <url>
     <loc>https://devlogs.lgnd.ai/posts/2026-04-22-geometric-probing-clay/index.html</loc>
-    <lastmod>2026-04-28T15:06:32.542Z</lastmod>
+    <lastmod>2026-04-28T15:56:27.985Z</lastmod>
+  </url>
+  <url>
+    <loc>https://devlogs.lgnd.ai/posts/2026-03-01-self-aware-embeddings/index.html</loc>
+    <lastmod>2026-04-28T15:56:27.960Z</lastmod>
   </url>
   <url>
     <loc>https://devlogs.lgnd.ai/about.html</loc>
-    <lastmod>2026-04-28T15:06:32.499Z</lastmod>
+    <lastmod>2026-04-28T15:56:27.937Z</lastmod>
   </url>
 </urlset>

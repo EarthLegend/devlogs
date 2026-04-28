@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-de84f8d6bb715db06a919283c2d1e787.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-c469a4a6e5d7257092f0264a1ee6bf32.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-33e03ce25f56d4ed60f1aea7ff04c3ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -899,31 +899,23 @@ Figure&nbsp;14: Cosine similarity matrix on the 8 canonical hull embeddings (cen
 <section id="reproduce" class="level3">
 <h3 class="anchored" data-anchor-id="reproduce">Reproduce</h3>
 <p>All the post’s compute lives in <strong>two files</strong>: <code>pipeline.py</code> (715 lines — compose → embed → probe → binding → polygon → ELLE → clipping → widget) and <code>figures.py</code> (478 lines — every figure in the post). Each is a thin CLI over a self-contained module. Code in the <a href="https://github.com/EarthLegend/devlogs">devlogs repo</a>.</p>
-<p><strong>Prerequisites (one-time, ~10 min).</strong> <code>pipeline.py</code> imports the Clay encoder + metadata helpers from <a href="https://github.com/EarthLegend/openclay"><code>openclay</code></a> and loads encoder weights from a path it discovers via env-var or one of a few defaults. Set both up first:</p>
-<pre><code># 1. openclay (provides EmbeddingEncoder, metadata.yaml, create_datacube)
-git clone https://github.com/EarthLegend/openclay
-export OPENCLAY_DIR="$PWD/openclay"
-
-# 2. Clay v1.5 encoder weights (~1.2 GB, extracted from the public 5 GB checkpoint)
-#    Download clay-v1.5.ckpt from https://huggingface.co/made-with-clay/Clay (file: v1.5/clay-v1.5.ckpt)
+<p><strong>A note on external reproduction.</strong> <code>pipeline.py</code> imports a small internal wrapper (<code>openclay</code>) that wires Clay v1.5’s encoder to band metadata and a datacube builder for NAIP. That wrapper isn’t yet public — we’re cleaning it up for release. The interface is narrow: the script calls <code>EmbeddingEncoder</code>, <code>load_metadata</code>, <code>get_band_statistics</code>, <code>get_gsd</code>, and <code>create_datacube</code>. You can satisfy those by adapting the public <a href="https://github.com/Clay-foundation/model">Clay foundation model</a>; every numerical result in this post is reproducible against any equivalent Clay v1.5 forward-pass loader. Outside the encoder, the pipeline is plain PyTorch + NumPy + scikit-learn (Ridge, LinearSVC, KFold) — nothing exotic.</p>
+<p><strong>Get the Clay v1.5 encoder weights</strong> (~1.2 GB, extracted from the public 5 GB checkpoint):</p>
+<pre><code># Download clay-v1.5.ckpt from https://huggingface.co/made-with-clay/Clay (file: v1.5/clay-v1.5.ckpt)
 export CLAY_CKPT=/path/to/clay-v1.5.ckpt
 export CLAY_ENCODER_PT="$PWD/clay-v1.5_encoder.pt"
 python stream_extract_encoder.py     # streams the ZIP-checkpoint without loading 5 GB into RAM
-
-# 3. (Optional, only if you want to re-run the ELLE step) Clone the elle repo alongside
-#    so cmd_elle can find elle/data/clay_naip_pairs.pt:
-git clone https://github.com/EarthLegend/elle    # provides data/clay_naip_pairs.pt</code></pre>
-<p>Without step 3 you can still run every other step; <code>pipeline.py elle</code> is the only command that needs the ELLE pairs file.</p>
+export OPENCLAY_DIR=/path/to/your/openclay-equivalent   # see "external reproduction" note above</code></pre>
+<p>The ELLE step (<code>pipeline.py elle</code>) additionally needs a <code>clay_naip_pairs.pt</code> file with paired (CLS-embedding, reconstruction-loss) tensors for a few thousand NAIP chips — same artefact described in our companion <a href="../2026-03-01-self-aware-embeddings/">ELLE devlog</a>, which has the recipe to generate it. You can skip the ELLE step and still run every other command.</p>
 <p><strong>Run.</strong></p>
-<pre><code>uv sync
-python pipeline.py compose          # 1,042 4-band composite chips from canonicals
+<pre><code>python pipeline.py compose          # 1,042 4-band composite chips from canonicals
 python pipeline.py embed 9999       # full Clay v1.5 embedding pass (resumable; embed [SECS] is a wall-clock budget, default 40 s for sandboxed reruns — pass a large value to finish in one shot)
 python pipeline.py probes           # within + LOBO + rotcont + hullsim + bootstrap
 python pipeline.py binding          # boat1↔boat2 swap test (re-embeds 96 chips internally)
 python pipeline.py polygon          # polygon-from-CLS soft-IoU + specific-boat
 python pipeline.py cosvsprobe       # cosine top-5 NN vs linear probe under LOBO
 python pipeline.py dims             # dims-0:K vs PCA-K vs raw 1024
-python pipeline.py elle             # ELLE manifold gauge + per-hull confidence (needs the elle repo from prereq step 3)
+python pipeline.py elle             # ELLE manifold gauge + per-hull confidence (needs clay_naip_pairs.pt — see above)
 python pipeline.py clipping         # alpha-overflow audit
 python pipeline.py widget 9999      # boat_06 cross-product widget data (same SECS-budget pattern as embed)
 python figures.py all               # render all 17 figures</code></pre>
@@ -1860,78 +1852,71 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb3-422"><a href="#cb3-422" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-423"><a href="#cb3-423" aria-hidden="true" tabindex="-1"></a>All the post's compute lives in **two files**: <span class="in">`pipeline.py`</span> (715 lines — compose → embed → probe → binding → polygon → ELLE → clipping → widget) and <span class="in">`figures.py`</span> (478 lines — every figure in the post). Each is a thin CLI over a self-contained module. Code in the <span class="co">[</span><span class="ot">devlogs repo</span><span class="co">](https://github.com/EarthLegend/devlogs)</span>.</span>
 <span id="cb3-424"><a href="#cb3-424" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-425"><a href="#cb3-425" aria-hidden="true" tabindex="-1"></a>**Prerequisites (one-time, ~10 min).** <span class="in">`pipeline.py`</span> imports the Clay encoder + metadata helpers from <span class="co">[</span><span class="ot">`openclay`</span><span class="co">](https://github.com/EarthLegend/openclay)</span> and loads encoder weights from a path it discovers via env-var or one of a few defaults. Set both up first:</span>
+<span id="cb3-425"><a href="#cb3-425" aria-hidden="true" tabindex="-1"></a>**A note on external reproduction.** <span class="in">`pipeline.py`</span> imports a small internal wrapper (<span class="in">`openclay`</span>) that wires Clay v1.5's encoder to band metadata and a datacube builder for NAIP. That wrapper isn't yet public — we're cleaning it up for release. The interface is narrow: the script calls <span class="in">`EmbeddingEncoder`</span>, <span class="in">`load_metadata`</span>, <span class="in">`get_band_statistics`</span>, <span class="in">`get_gsd`</span>, and <span class="in">`create_datacube`</span>. You can satisfy those by adapting the public <span class="co">[</span><span class="ot">Clay foundation model</span><span class="co">](https://github.com/Clay-foundation/model)</span>; every numerical result in this post is reproducible against any equivalent Clay v1.5 forward-pass loader. Outside the encoder, the pipeline is plain PyTorch + NumPy + scikit-learn (Ridge, LinearSVC, KFold) — nothing exotic.</span>
 <span id="cb3-426"><a href="#cb3-426" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-427"><a href="#cb3-427" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-428"><a href="#cb3-428" aria-hidden="true" tabindex="-1"></a><span class="in"># 1. openclay (provides EmbeddingEncoder, metadata.yaml, create_datacube)</span></span>
-<span id="cb3-429"><a href="#cb3-429" aria-hidden="true" tabindex="-1"></a><span class="in">git clone https://github.com/EarthLegend/openclay</span></span>
-<span id="cb3-430"><a href="#cb3-430" aria-hidden="true" tabindex="-1"></a><span class="in">export OPENCLAY_DIR="$PWD/openclay"</span></span>
-<span id="cb3-431"><a href="#cb3-431" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-432"><a href="#cb3-432" aria-hidden="true" tabindex="-1"></a><span class="in"># 2. Clay v1.5 encoder weights (~1.2 GB, extracted from the public 5 GB checkpoint)</span></span>
-<span id="cb3-433"><a href="#cb3-433" aria-hidden="true" tabindex="-1"></a><span class="in">#    Download clay-v1.5.ckpt from https://huggingface.co/made-with-clay/Clay (file: v1.5/clay-v1.5.ckpt)</span></span>
-<span id="cb3-434"><a href="#cb3-434" aria-hidden="true" tabindex="-1"></a><span class="in">export CLAY_CKPT=/path/to/clay-v1.5.ckpt</span></span>
-<span id="cb3-435"><a href="#cb3-435" aria-hidden="true" tabindex="-1"></a><span class="in">export CLAY_ENCODER_PT="$PWD/clay-v1.5_encoder.pt"</span></span>
-<span id="cb3-436"><a href="#cb3-436" aria-hidden="true" tabindex="-1"></a><span class="in">python stream_extract_encoder.py     # streams the ZIP-checkpoint without loading 5 GB into RAM</span></span>
-<span id="cb3-437"><a href="#cb3-437" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-438"><a href="#cb3-438" aria-hidden="true" tabindex="-1"></a><span class="in"># 3. (Optional, only if you want to re-run the ELLE step) Clone the elle repo alongside</span></span>
-<span id="cb3-439"><a href="#cb3-439" aria-hidden="true" tabindex="-1"></a><span class="in">#    so cmd_elle can find elle/data/clay_naip_pairs.pt:</span></span>
-<span id="cb3-440"><a href="#cb3-440" aria-hidden="true" tabindex="-1"></a><span class="in">git clone https://github.com/EarthLegend/elle    # provides data/clay_naip_pairs.pt</span></span>
+<span id="cb3-427"><a href="#cb3-427" aria-hidden="true" tabindex="-1"></a>**Get the Clay v1.5 encoder weights** (~1.2 GB, extracted from the public 5 GB checkpoint):</span>
+<span id="cb3-428"><a href="#cb3-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-429"><a href="#cb3-429" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-430"><a href="#cb3-430" aria-hidden="true" tabindex="-1"></a><span class="in"># Download clay-v1.5.ckpt from https://huggingface.co/made-with-clay/Clay (file: v1.5/clay-v1.5.ckpt)</span></span>
+<span id="cb3-431"><a href="#cb3-431" aria-hidden="true" tabindex="-1"></a><span class="in">export CLAY_CKPT=/path/to/clay-v1.5.ckpt</span></span>
+<span id="cb3-432"><a href="#cb3-432" aria-hidden="true" tabindex="-1"></a><span class="in">export CLAY_ENCODER_PT="$PWD/clay-v1.5_encoder.pt"</span></span>
+<span id="cb3-433"><a href="#cb3-433" aria-hidden="true" tabindex="-1"></a><span class="in">python stream_extract_encoder.py     # streams the ZIP-checkpoint without loading 5 GB into RAM</span></span>
+<span id="cb3-434"><a href="#cb3-434" aria-hidden="true" tabindex="-1"></a><span class="in">export OPENCLAY_DIR=/path/to/your/openclay-equivalent   # see "external reproduction" note above</span></span>
+<span id="cb3-435"><a href="#cb3-435" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-436"><a href="#cb3-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-437"><a href="#cb3-437" aria-hidden="true" tabindex="-1"></a>The ELLE step (<span class="in">`pipeline.py elle`</span>) additionally needs a <span class="in">`clay_naip_pairs.pt`</span> file with paired (CLS-embedding, reconstruction-loss) tensors for a few thousand NAIP chips — same artefact described in our companion <span class="co">[</span><span class="ot">ELLE devlog</span><span class="co">](../2026-03-01-self-aware-embeddings/)</span>, which has the recipe to generate it. You can skip the ELLE step and still run every other command.</span>
+<span id="cb3-438"><a href="#cb3-438" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-439"><a href="#cb3-439" aria-hidden="true" tabindex="-1"></a>**Run.**</span>
+<span id="cb3-440"><a href="#cb3-440" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-441"><a href="#cb3-441" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-442"><a href="#cb3-442" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-443"><a href="#cb3-443" aria-hidden="true" tabindex="-1"></a>Without step 3 you can still run every other step; <span class="in">`pipeline.py elle`</span> is the only command that needs the ELLE pairs file.</span>
-<span id="cb3-444"><a href="#cb3-444" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-445"><a href="#cb3-445" aria-hidden="true" tabindex="-1"></a>**Run.**</span>
-<span id="cb3-446"><a href="#cb3-446" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-447"><a href="#cb3-447" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-448"><a href="#cb3-448" aria-hidden="true" tabindex="-1"></a><span class="in">uv sync</span></span>
-<span id="cb3-449"><a href="#cb3-449" aria-hidden="true" tabindex="-1"></a><span class="in">python pipeline.py compose          # 1,042 4-band composite chips from canonicals</span></span>
-<span id="cb3-450"><a href="#cb3-450" aria-hidden="true" tabindex="-1"></a><span class="in">python pipeline.py embed 9999       # full Clay v1.5 embedding pass (resumable; embed [SECS] is a wall-clock budget, default 40 s for sandboxed reruns — pass a large value to finish in one shot)</span></span>
-<span id="cb3-451"><a href="#cb3-451" aria-hidden="true" tabindex="-1"></a><span class="in">python pipeline.py probes           # within + LOBO + rotcont + hullsim + bootstrap</span></span>
-<span id="cb3-452"><a href="#cb3-452" aria-hidden="true" tabindex="-1"></a><span class="in">python pipeline.py binding          # boat1↔boat2 swap test (re-embeds 96 chips internally)</span></span>
-<span id="cb3-453"><a href="#cb3-453" aria-hidden="true" tabindex="-1"></a><span class="in">python pipeline.py polygon          # polygon-from-CLS soft-IoU + specific-boat</span></span>
-<span id="cb3-454"><a href="#cb3-454" aria-hidden="true" tabindex="-1"></a><span class="in">python pipeline.py cosvsprobe       # cosine top-5 NN vs linear probe under LOBO</span></span>
-<span id="cb3-455"><a href="#cb3-455" aria-hidden="true" tabindex="-1"></a><span class="in">python pipeline.py dims             # dims-0:K vs PCA-K vs raw 1024</span></span>
-<span id="cb3-456"><a href="#cb3-456" aria-hidden="true" tabindex="-1"></a><span class="in">python pipeline.py elle             # ELLE manifold gauge + per-hull confidence (needs the elle repo from prereq step 3)</span></span>
-<span id="cb3-457"><a href="#cb3-457" aria-hidden="true" tabindex="-1"></a><span class="in">python pipeline.py clipping         # alpha-overflow audit</span></span>
-<span id="cb3-458"><a href="#cb3-458" aria-hidden="true" tabindex="-1"></a><span class="in">python pipeline.py widget 9999      # boat_06 cross-product widget data (same SECS-budget pattern as embed)</span></span>
-<span id="cb3-459"><a href="#cb3-459" aria-hidden="true" tabindex="-1"></a><span class="in">python figures.py all               # render all 17 figures</span></span>
-<span id="cb3-460"><a href="#cb3-460" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-442"><a href="#cb3-442" aria-hidden="true" tabindex="-1"></a><span class="in">python pipeline.py compose          # 1,042 4-band composite chips from canonicals</span></span>
+<span id="cb3-443"><a href="#cb3-443" aria-hidden="true" tabindex="-1"></a><span class="in">python pipeline.py embed 9999       # full Clay v1.5 embedding pass (resumable; embed [SECS] is a wall-clock budget, default 40 s for sandboxed reruns — pass a large value to finish in one shot)</span></span>
+<span id="cb3-444"><a href="#cb3-444" aria-hidden="true" tabindex="-1"></a><span class="in">python pipeline.py probes           # within + LOBO + rotcont + hullsim + bootstrap</span></span>
+<span id="cb3-445"><a href="#cb3-445" aria-hidden="true" tabindex="-1"></a><span class="in">python pipeline.py binding          # boat1↔boat2 swap test (re-embeds 96 chips internally)</span></span>
+<span id="cb3-446"><a href="#cb3-446" aria-hidden="true" tabindex="-1"></a><span class="in">python pipeline.py polygon          # polygon-from-CLS soft-IoU + specific-boat</span></span>
+<span id="cb3-447"><a href="#cb3-447" aria-hidden="true" tabindex="-1"></a><span class="in">python pipeline.py cosvsprobe       # cosine top-5 NN vs linear probe under LOBO</span></span>
+<span id="cb3-448"><a href="#cb3-448" aria-hidden="true" tabindex="-1"></a><span class="in">python pipeline.py dims             # dims-0:K vs PCA-K vs raw 1024</span></span>
+<span id="cb3-449"><a href="#cb3-449" aria-hidden="true" tabindex="-1"></a><span class="in">python pipeline.py elle             # ELLE manifold gauge + per-hull confidence (needs clay_naip_pairs.pt — see above)</span></span>
+<span id="cb3-450"><a href="#cb3-450" aria-hidden="true" tabindex="-1"></a><span class="in">python pipeline.py clipping         # alpha-overflow audit</span></span>
+<span id="cb3-451"><a href="#cb3-451" aria-hidden="true" tabindex="-1"></a><span class="in">python pipeline.py widget 9999      # boat_06 cross-product widget data (same SECS-budget pattern as embed)</span></span>
+<span id="cb3-452"><a href="#cb3-452" aria-hidden="true" tabindex="-1"></a><span class="in">python figures.py all               # render all 17 figures</span></span>
+<span id="cb3-453"><a href="#cb3-453" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-454"><a href="#cb3-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-455"><a href="#cb3-455" aria-hidden="true" tabindex="-1"></a><span class="in">`pipeline.py all`</span> runs every step in order with default wall-clock budgets, which is convenient for resumable reruns but **does not finish a fresh embed pass** (the default <span class="in">`embed`</span> budget is 40 s) — on first run, call <span class="in">`embed 9999`</span> separately, then <span class="in">`all`</span>.</span>
+<span id="cb3-456"><a href="#cb3-456" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-457"><a href="#cb3-457" aria-hidden="true" tabindex="-1"></a>The Clay v1.5 encoder forward pass is single-CPU friendly (no GPU required); <span class="in">`embed`</span> is the long pole and runs in tens of minutes on a laptop. Every other step is seconds-to-a-minute. Both <span class="in">`embed`</span> and <span class="in">`widget`</span> write resumable state, so re-running picks up where it left off.</span>
+<span id="cb3-458"><a href="#cb3-458" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-459"><a href="#cb3-459" aria-hidden="true" tabindex="-1"></a>Three one-off setup helpers stay separate from the main pipeline: <span class="in">`stream_extract_encoder.py`</span> (covered above), <span class="in">`polygons_wide_to_canonicals.py`</span> (QGIS polygon → 4-band canonical extraction), and <span class="in">`fetch_wide_4band_tiff.py`</span> (raw NAIP TIFF fetching from MPC). The latter two only matter if you want to rebuild the canonical hulls and water tile from scratch — the <span class="in">`assets/`</span> directory in the repo already ships them.</span>
+<span id="cb3-460"><a href="#cb3-460" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-461"><a href="#cb3-461" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-462"><a href="#cb3-462" aria-hidden="true" tabindex="-1"></a><span class="in">`pipeline.py all`</span> runs every step in order with default wall-clock budgets, which is convenient for resumable reruns but **does not finish a fresh embed pass** (the default <span class="in">`embed`</span> budget is 40 s) — on first run, call <span class="in">`embed 9999`</span> separately, then <span class="in">`all`</span>.</span>
+<span id="cb3-462"><a href="#cb3-462" aria-hidden="true" tabindex="-1"></a><span class="fu">## Prior Art {#prior-art}</span></span>
 <span id="cb3-463"><a href="#cb3-463" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-464"><a href="#cb3-464" aria-hidden="true" tabindex="-1"></a>The Clay v1.5 encoder forward pass is single-CPU friendly (no GPU required); <span class="in">`embed`</span> is the long pole and runs in tens of minutes on a laptop. Every other step is seconds-to-a-minute. Both <span class="in">`embed`</span> and <span class="in">`widget`</span> write resumable state, so re-running picks up where it left off.</span>
+<span id="cb3-464"><a href="#cb3-464" aria-hidden="true" tabindex="-1"></a>*Backbone, EO foundation-model siblings.*</span>
 <span id="cb3-465"><a href="#cb3-465" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-466"><a href="#cb3-466" aria-hidden="true" tabindex="-1"></a>Three one-off setup helpers stay separate from the main pipeline: <span class="in">`stream_extract_encoder.py`</span> (covered above), <span class="in">`polygons_wide_to_canonicals.py`</span> (QGIS polygon → 4-band canonical extraction), and <span class="in">`fetch_wide_4band_tiff.py`</span> (raw NAIP TIFF fetching from MPC). The latter two only matter if you want to rebuild the canonical hulls and water tile from scratch — the <span class="in">`assets/`</span> directory in the repo already ships them.</span>
-<span id="cb3-467"><a href="#cb3-467" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-468"><a href="#cb3-468" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-469"><a href="#cb3-469" aria-hidden="true" tabindex="-1"></a><span class="fu">## Prior Art {#prior-art}</span></span>
-<span id="cb3-470"><a href="#cb3-470" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-471"><a href="#cb3-471" aria-hidden="true" tabindex="-1"></a>*Backbone, EO foundation-model siblings.*</span>
-<span id="cb3-472"><a href="#cb3-472" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-473"><a href="#cb3-473" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**He et al. 2022** — *[Masked Autoencoders Are Scalable Vision Learners](https://arxiv.org/abs/2111.06377)* (CVPR 2022). The backbone of Clay v1.5. Pixel reconstruction at absolute positions is the most parsimonious explanation for geometric axes surviving the single-CLS readout.</span>
-<span id="cb3-474"><a href="#cb3-474" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cong et al. 2022** — *[SatMAE: Pre-training Transformers for Temporal and Multi-Spectral Satellite Imagery](https://arxiv.org/abs/2207.08051)* (NeurIPS 2022). Linear-probe transfer evaluation is the standard discipline in EO foundation-model benchmarks. This work extends that discipline from classification-task transfer into a controlled multi-factor probe sweep on a single scene.</span>
-<span id="cb3-475"><a href="#cb3-475" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Brown et al. 2025** — *[AlphaEarth Foundations: An embedding field model for accurate and efficient global mapping from sparse label data](https://arxiv.org/abs/2507.22291)* (DeepMind). A direct sibling on the pre-indexed-embeddings-at-planet-scale architectural pattern: AEF ships annual 64-D embeddings per 10 m pixel; LGND ships per-chip 1024-D Clay embeddings across NAIP, S2, Landsat. Same wedge — embed once at index time, query many times after — measured here at the chip level for a different sensor stack.</span>
-<span id="cb3-476"><a href="#cb3-476" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-477"><a href="#cb3-477" aria-hidden="true" tabindex="-1"></a>*Probing as methodology.*</span>
-<span id="cb3-478"><a href="#cb3-478" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-479"><a href="#cb3-479" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Alain &amp; Bengio 2016** — *[Understanding intermediate layers using linear classifier probes](https://arxiv.org/abs/1610.01644).* The foundational paper for probing-as-methodology. Every linear-probe number in this post stands on the discipline this paper established: train a fresh classifier on frozen features, read off what's linearly recoverable.</span>
-<span id="cb3-480"><a href="#cb3-480" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Hewitt &amp; Manning 2019** — *[A Structural Probe for Finding Syntax in Word Representations](https://aclanthology.org/N19-1419/)* (NAACL 2019). Showed entire syntax trees are linearly recoverable from BERT/ELMo geometry. Our finding is the EO analogue: geometric factors (rotation, count, size, content×position binding) are linearly recoverable from Clay's CLS.</span>
-<span id="cb3-481"><a href="#cb3-481" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Kim et al. 2018** — *[Quantitative Testing with Concept Activation Vectors (TCAV)](https://arxiv.org/abs/1711.11279)* (ICML 2018). Our probes are TCAV applied to satellite imagery — concept activation vectors trained on a controlled stimulus set, validated by the held-out generalization (LOBO) we report here.</span>
+<span id="cb3-466"><a href="#cb3-466" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**He et al. 2022** — *[Masked Autoencoders Are Scalable Vision Learners](https://arxiv.org/abs/2111.06377)* (CVPR 2022). The backbone of Clay v1.5. Pixel reconstruction at absolute positions is the most parsimonious explanation for geometric axes surviving the single-CLS readout.</span>
+<span id="cb3-467"><a href="#cb3-467" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cong et al. 2022** — *[SatMAE: Pre-training Transformers for Temporal and Multi-Spectral Satellite Imagery](https://arxiv.org/abs/2207.08051)* (NeurIPS 2022). Linear-probe transfer evaluation is the standard discipline in EO foundation-model benchmarks. This work extends that discipline from classification-task transfer into a controlled multi-factor probe sweep on a single scene.</span>
+<span id="cb3-468"><a href="#cb3-468" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Brown et al. 2025** — *[AlphaEarth Foundations: An embedding field model for accurate and efficient global mapping from sparse label data](https://arxiv.org/abs/2507.22291)* (DeepMind). A direct sibling on the pre-indexed-embeddings-at-planet-scale architectural pattern: AEF ships annual 64-D embeddings per 10 m pixel; LGND ships per-chip 1024-D Clay embeddings across NAIP, S2, Landsat. Same wedge — embed once at index time, query many times after — measured here at the chip level for a different sensor stack.</span>
+<span id="cb3-469"><a href="#cb3-469" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-470"><a href="#cb3-470" aria-hidden="true" tabindex="-1"></a>*Probing as methodology.*</span>
+<span id="cb3-471"><a href="#cb3-471" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-472"><a href="#cb3-472" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Alain &amp; Bengio 2016** — *[Understanding intermediate layers using linear classifier probes](https://arxiv.org/abs/1610.01644).* The foundational paper for probing-as-methodology. Every linear-probe number in this post stands on the discipline this paper established: train a fresh classifier on frozen features, read off what's linearly recoverable.</span>
+<span id="cb3-473"><a href="#cb3-473" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Hewitt &amp; Manning 2019** — *[A Structural Probe for Finding Syntax in Word Representations](https://aclanthology.org/N19-1419/)* (NAACL 2019). Showed entire syntax trees are linearly recoverable from BERT/ELMo geometry. Our finding is the EO analogue: geometric factors (rotation, count, size, content×position binding) are linearly recoverable from Clay's CLS.</span>
+<span id="cb3-474"><a href="#cb3-474" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Kim et al. 2018** — *[Quantitative Testing with Concept Activation Vectors (TCAV)](https://arxiv.org/abs/1711.11279)* (ICML 2018). Our probes are TCAV applied to satellite imagery — concept activation vectors trained on a controlled stimulus set, validated by the held-out generalization (LOBO) we report here.</span>
+<span id="cb3-475"><a href="#cb3-475" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-476"><a href="#cb3-476" aria-hidden="true" tabindex="-1"></a>*CLS geometry, anisotropy, register artefacts.*</span>
+<span id="cb3-477"><a href="#cb3-477" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-478"><a href="#cb3-478" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Ethayarajh 2019** — *[How Contextual are Contextualized Word Representations?](https://arxiv.org/abs/1909.00512)* (EMNLP 2019). The underlying reason ViT CLS cosines saturate near 1.0 — and why our binding test recovers the signal via a probe but not via cosine.</span>
+<span id="cb3-479"><a href="#cb3-479" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Darcet et al. 2024** — *[Vision Transformers Need Registers](https://arxiv.org/abs/2309.16588)* (ICLR 2024). CLS-token artefacts matter for chip-level probes like ours; a register-equipped Clay variant would be a cleaner canvas for the position-fails-at-LOBO finding specifically.</span>
+<span id="cb3-480"><a href="#cb3-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-481"><a href="#cb3-481" aria-hidden="true" tabindex="-1"></a>*Compositional binding, counting, disentanglement.*</span>
 <span id="cb3-482"><a href="#cb3-482" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-483"><a href="#cb3-483" aria-hidden="true" tabindex="-1"></a>*CLS geometry, anisotropy, register artefacts.*</span>
-<span id="cb3-484"><a href="#cb3-484" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-485"><a href="#cb3-485" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Ethayarajh 2019** — *[How Contextual are Contextualized Word Representations?](https://arxiv.org/abs/1909.00512)* (EMNLP 2019). The underlying reason ViT CLS cosines saturate near 1.0 — and why our binding test recovers the signal via a probe but not via cosine.</span>
-<span id="cb3-486"><a href="#cb3-486" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Darcet et al. 2024** — *[Vision Transformers Need Registers](https://arxiv.org/abs/2309.16588)* (ICLR 2024). CLS-token artefacts matter for chip-level probes like ours; a register-equipped Clay variant would be a cleaner canvas for the position-fails-at-LOBO finding specifically.</span>
-<span id="cb3-487"><a href="#cb3-487" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-488"><a href="#cb3-488" aria-hidden="true" tabindex="-1"></a>*Compositional binding, counting, disentanglement.*</span>
-<span id="cb3-489"><a href="#cb3-489" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-490"><a href="#cb3-490" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Yuksekgonul et al. 2023** — *[When and Why Vision-Language Models Behave like Bags-of-Words](https://arxiv.org/abs/2210.01936)* (ICLR 2023, oral). The canonical compositional-binding-failure result for VLMs: CLIP fails the ARO benchmark for attribute binding and word order. Our binding test is the EO foundation-model instantiation — same finding (cosine retrieval cannot deliver compositional binding), different stimulus class, controlled to two real hulls + a noise floor + a 200-permutation test.</span>
-<span id="cb3-491"><a href="#cb3-491" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Paiss, Chefer, Wolf 2023** — *[Teaching CLIP to Count to Ten](https://arxiv.org/abs/2302.12066)* (ICCV 2023). CLIP needed explicit counting supervision. Clay's R² ≈ 0.99 within-object (0.84 LOBO) with no language supervision is a (modest) data point for the MAE-reconstruction-teaches-counting side.</span>
-<span id="cb3-492"><a href="#cb3-492" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Locatello et al. 2019** — *[Challenging Common Assumptions in the Unsupervised Learning of Disentangled Representations](https://arxiv.org/abs/1811.12359)* (ICML 2019, best paper). Disentanglement-as-a-frame is contested: without inductive biases, well-disentangled models cannot be identified without supervision. We don't claim factor disentanglement here — we claim factor *recoverability* via supervised linear probes, which is the weaker, identifiable claim.</span>
-<span id="cb3-493"><a href="#cb3-493" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-494"><a href="#cb3-494" aria-hidden="true" tabindex="-1"></a>*Dimensionality reduction critique.*</span>
-<span id="cb3-495"><a href="#cb3-495" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-496"><a href="#cb3-496" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Chari &amp; Pachter 2023** — *[The Specious Art of Single-Cell Genomics](https://doi.org/10.1371/journal.pcbi.1011288)* (PLOS Computational Biology). Their argument is that UMAP/t-SNE *fabricate* structure. Our finding is different — we show UMAP *loses* count and is indistinguishable from PCA-2 on the rest. Same concern, different symptom.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<span id="cb3-483"><a href="#cb3-483" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Yuksekgonul et al. 2023** — *[When and Why Vision-Language Models Behave like Bags-of-Words](https://arxiv.org/abs/2210.01936)* (ICLR 2023, oral). The canonical compositional-binding-failure result for VLMs: CLIP fails the ARO benchmark for attribute binding and word order. Our binding test is the EO foundation-model instantiation — same finding (cosine retrieval cannot deliver compositional binding), different stimulus class, controlled to two real hulls + a noise floor + a 200-permutation test.</span>
+<span id="cb3-484"><a href="#cb3-484" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Paiss, Chefer, Wolf 2023** — *[Teaching CLIP to Count to Ten](https://arxiv.org/abs/2302.12066)* (ICCV 2023). CLIP needed explicit counting supervision. Clay's R² ≈ 0.99 within-object (0.84 LOBO) with no language supervision is a (modest) data point for the MAE-reconstruction-teaches-counting side.</span>
+<span id="cb3-485"><a href="#cb3-485" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Locatello et al. 2019** — *[Challenging Common Assumptions in the Unsupervised Learning of Disentangled Representations](https://arxiv.org/abs/1811.12359)* (ICML 2019, best paper). Disentanglement-as-a-frame is contested: without inductive biases, well-disentangled models cannot be identified without supervision. We don't claim factor disentanglement here — we claim factor *recoverability* via supervised linear probes, which is the weaker, identifiable claim.</span>
+<span id="cb3-486"><a href="#cb3-486" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-487"><a href="#cb3-487" aria-hidden="true" tabindex="-1"></a>*Dimensionality reduction critique.*</span>
+<span id="cb3-488"><a href="#cb3-488" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-489"><a href="#cb3-489" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Chari &amp; Pachter 2023** — *[The Specious Art of Single-Cell Genomics](https://doi.org/10.1371/journal.pcbi.1011288)* (PLOS Computational Biology). Their argument is that UMAP/t-SNE *fabricate* structure. Our finding is different — we show UMAP *loses* count and is indistinguishable from PCA-2 on the rest. Same concern, different symptom.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
