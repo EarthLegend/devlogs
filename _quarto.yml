@@ -10,6 +10,10 @@ website:
   repo-url: https://github.com/EarthLegend/devlogs
   repo-actions: [edit, issue]
 
+  open-graph: true
+  twitter-card:
+    card-style: summary_large_image
+
   navbar:
     left:
       - text: "Posts"
