@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Lgnd.ai Devlogs – Lgnd.ai — Devlogs</title>
+<title>source – Lgnd.ai — Devlogs</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -57,25 +57,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./assets/favicon.png" rel="icon" type="image/png">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-de84f8d6bb715db06a919283c2d1e787.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c469a4a6e5d7257092f0264a1ee6bf32.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../assets/favicon.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-de84f8d6bb715db06a919283c2d1e787.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-c469a4a6e5d7257092f0264a1ee6bf32.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -103,67 +101,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-description','listing-categories','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-subtitle","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -173,7 +113,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../../index.html">
     <span class="navbar-title">Lgnd.ai — Devlogs</span>
     </a>
   </div>
@@ -184,11 +124,11 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../../index.html"> 
 <span class="menu-text">Posts</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -206,153 +146,42 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(3)</span></div><div class="category" data-category="Y2xheQ==">clay <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZW1iZWRkaW5ncw==">embeddings <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Zm91bmRhdGlvbi1tb2RlbHM=">foundation-models <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Z2Vvc3BhdGlhbA==">geospatial <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cHJvYmluZw==">probing <span class="quarto-category-count">(1)</span></div><div class="category" data-category="c2VsZi1zdXBlcnZpc2Vk">self-supervised <span class="quarto-category-count">(1)</span></div><div class="category" data-category="dW5jZXJ0YWludHk=">uncertainty <span class="quarto-category-count">(1)</span></div></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#boat-polygons-source-raster" id="toc-boat-polygons-source-raster" class="nav-link active" data-scroll-target="#boat-polygons-source-raster">Boat polygons — source raster</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/EarthLegend/devlogs/edit/main/posts/2026-04-22-geometric-probing-clay/assets/SOURCE.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EarthLegend/devlogs/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Lgnd.ai Devlogs</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
-<p class="subtitle lead">Research notes and devlogs from LGND AI and Clay</p>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7"></h1></header><div class="quarto-title-block"><div class="quarto-title-tools-only"><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 
 
 
-<div class="quarto-title-meta column-page-left">
 
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<p>Research notes and devlogs from LGND AI and Clay.</p>
-<hr>
-
+<section id="boat-polygons-source-raster" class="level1">
+<h1>Boat polygons — source raster</h1>
+<p>The vessel polygons in <code>boats.geojson</code>, <code>moreboats.geojson</code>, and <code>evemore.geojson</code> were hand-digitised in QGIS against a single NAIP 4-band tile from the Microsoft Planetary Computer:</p>
+<ul>
+<li><strong>Collection:</strong> <code>naip</code> (Microsoft Planetary Computer STAC)</li>
+<li><strong>Tile ID:</strong> <code>ca_m_3712222_nw_10_060_20200524</code></li>
+<li><strong>Acquisition:</strong> 2020-05-24, San Francisco Bay coastal anchorage (CA)</li>
+<li><strong>Bands:</strong> R, G, B, NIR (4-band, 0.6 m GSD)</li>
+<li><strong>STAC endpoint:</strong> <code>https://planetarycomputer.microsoft.com/api/stac/v1</code></li>
+</ul>
+<p>To rebuild the wide TIFFs the polygons were traced on, run <code>fetch_wide_4band_tiff.py</code> and <code>fetch_wide_4band_tiff_east.py</code> from the post root — both pull the same source tile and crop to the anchorage windows used in the post.</p>
 
 
 <!-- -->
 
+</section>
 
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-file-modified-sort="1777386184898" data-listing-reading-time-sort="1" data-listing-word-count-sort="81">
-<div class="thumbnail">
-<p><a href="./posts/2026-04-22-geometric-probing-clay/assets/SOURCE.html" class="no-external"></a></p><a href="./posts/2026-04-22-geometric-probing-clay/assets/SOURCE.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/2026-04-22-geometric-probing-clay/assets/SOURCE.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2026-04-22-geometric-probing-clay/assets/SOURCE.html" class="no-external">Boat polygons — source raster</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2026-04-22-geometric-probing-clay/assets/SOURCE.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/2026-04-22-geometric-probing-clay/assets/SOURCE.html" class="no-external">The vessel polygons in <code>boats.geojson</code>, <code>moreboats.geojson</code>, and <code>evemore.geojson</code> were hand-digitised in QGIS against a single NAIP 4-band tile from the Microsoft Planetary…</a>
-</div>
-</div>
-<div class="metadata">
-<p><a href="./posts/2026-04-22-geometric-probing-clay/assets/SOURCE.html" class="no-external"></a></p><a href="./posts/2026-04-22-geometric-probing-clay/assets/SOURCE.html" class="no-external">
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="ZW1iZWRkaW5ncyUyQ2ZvdW5kYXRpb24tbW9kZWxzJTJDY2xheSUyQ3Byb2Jpbmc=" data-listing-date-sort="1776816000000" data-listing-file-modified-sort="1777386184920" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="37" data-listing-word-count-sort="7326">
-<div class="thumbnail">
-<p><a href="./posts/2026-04-22-geometric-probing-clay/index.html" class="no-external"></a></p><a href="./posts/2026-04-22-geometric-probing-clay/index.html" class="no-external">
-<p><img loading="lazy" src="./posts/2026-04-22-geometric-probing-clay/assets/boat1_native_4b.jpg" class="thumbnail-image"></p>
-</a><p><a href="./posts/2026-04-22-geometric-probing-clay/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2026-04-22-geometric-probing-clay/index.html" class="no-external">Cheaper than a pixel, faster than an agent; the geoembedding knows more than you think</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2026-04-22-geometric-probing-clay/index.html" class="no-external">Clay embeddings do contain semantic information like location, size, orientation, and count of semantics within the image. Readable with linear probes.</a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZW1iZWRkaW5ncw=='); return false;">
-embeddings
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Zm91bmRhdGlvbi1tb2RlbHM='); return false;">
-foundation-models
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Y2xheQ=='); return false;">
-clay
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('cHJvYmluZw=='); return false;">
-probing
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/2026-04-22-geometric-probing-clay/index.html" class="no-external">This post shows that Clay embeddings do contain semantic information like location, size, orientation, and count. And the mechanism to scale this retrieval to planetary scale, without agents or reading pixels.</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2026-04-22-geometric-probing-clay/index.html" class="no-external">
-<div class="listing-date">
-2026-04-22
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="ZW1iZWRkaW5ncyUyQ3VuY2VydGFpbnR5JTJDZ2Vvc3BhdGlhbCUyQ2ZvdW5kYXRpb24tbW9kZWxzJTJDc2VsZi1zdXBlcnZpc2Vk" data-listing-date-sort="1772323200000" data-listing-file-modified-sort="1777386184897" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="28" data-listing-word-count-sort="5556">
-<div class="thumbnail">
-<p><a href="./posts/2026-03-01-self-aware-embeddings/index.html" class="no-external"></a></p><a href="./posts/2026-03-01-self-aware-embeddings/index.html" class="no-external">
-<p><img loading="lazy" src="./posts/2026-03-01-self-aware-embeddings/assets/final_bar_chart.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/2026-03-01-self-aware-embeddings/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2026-03-01-self-aware-embeddings/index.html" class="no-external">ELLE: Embeddings Linearly contain their Loss Estimate</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2026-03-01-self-aware-embeddings/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZW1iZWRkaW5ncw=='); return false;">
-embeddings
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dW5jZXJ0YWludHk='); return false;">
-uncertainty
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Z2Vvc3BhdGlhbA=='); return false;">
-geospatial
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Zm91bmRhdGlvbi1tb2RlbHM='); return false;">
-foundation-models
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('c2VsZi1zdXBlcnZpc2Vk'); return false;">
-self-supervised
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/2026-03-01-self-aware-embeddings/index.html" class="no-external">Foundation model CLS embeddings linearly encode their own per-sample pretraining loss – readable by a Ridge probe in 1 us, with no labels and no extra forward passes. Validated across 20 models and 6 modalities.</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2026-03-01-self-aware-embeddings/index.html" class="no-external">
-<div class="listing-date">
-2026-03-01
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -821,25 +650,22 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Lgnd.ai Devlogs"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Research notes and devlogs from LGND AI and Clay"</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="an">listing:</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">  contents: posts</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">  sort: "date desc"</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">  type: default</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">  categories: true</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">  sort-ui: false</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">  filter-ui: false</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">  fields: [date, title, description, categories, image]</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">  date-format: "YYYY-MM-DD"</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="an">page-layout:</span><span class="co"> full</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="an">title-block-banner:</span><span class="co"> false</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>Research notes and devlogs from LGND AI and Clay.</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>---</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Boat polygons — source raster</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>The vessel polygons in <span class="in">`boats.geojson`</span>, <span class="in">`moreboats.geojson`</span>, and <span class="in">`evemore.geojson`</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>were hand-digitised in QGIS against a single NAIP 4-band tile from the</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Microsoft Planetary Computer:</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Collection:** <span class="in">`naip`</span> (Microsoft Planetary Computer STAC)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Tile ID:** <span class="in">`ca_m_3712222_nw_10_060_20200524`</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Acquisition:** 2020-05-24, San Francisco Bay coastal anchorage (CA)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Bands:** R, G, B, NIR (4-band, 0.6 m GSD)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**STAC endpoint:** <span class="in">`https://planetarycomputer.microsoft.com/api/stac/v1`</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>To rebuild the wide TIFFs the polygons were traced on, run</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="in">`fetch_wide_4band_tiff.py`</span> and <span class="in">`fetch_wide_4band_tiff_east.py`</span> from the post</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>root — both pull the same source tile and crop to the anchorage windows used</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>in the post.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
@@ -849,7 +675,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>   
     <div class="nav-footer-center">
 <p>© LGND AI · Posts are <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY</a> · Code is <a href="https://opensource.org/licenses/MIT">MIT</a></p>
-<div class="toc-actions"><ul><li><a href="https://github.com/EarthLegend/devlogs/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EarthLegend/devlogs/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/EarthLegend/devlogs/edit/main/posts/2026-04-22-geometric-probing-clay/assets/SOURCE.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EarthLegend/devlogs/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
