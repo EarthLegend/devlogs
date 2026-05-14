@@ -18,7 +18,7 @@ resources:
   - "assets/chipmatch_hero.jpg"
 ---
 
-# Playing Inside Clay's Embedding Space
+##
 
 The query is an aerial chip from California's Central Valley: a block of orchards in various stages of growth, much of the frame brown soil because many of the orchards are still early-stage with very small trees. A road runs north-south along the left edge. Of the six candidates, two are agricultural. One (C1) shows two fields — the larger brown and empty, the smaller green — with a few houses and roads scattered around. The other (C2) shows three larger orchards of bushier, greener trees, likely a different species, with a touch of suburban housing nearby.
 
