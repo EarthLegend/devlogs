@@ -38,7 +38,7 @@ ChipMatch is the small game I built to give people a hands-on intuition for embe
 
 Three rounds are free with no signup needed. After that you grab a free LGND API key and keep playing on your own quota. The chips are all NAIP imagery from California — high-resolution aerial photos — embedded with [Clay v1.5](https://madewithclay.org/).
 
-The build story (mountain walks, MCP-assisted spec arguments, Claude Code dispatch and dogfooded edges) is over on [the main blog]({https://lgnd.ai/resources/code-assistant}). This post is about what playing the game actually teaches.
+The build story (mountain walks, MCP-assisted spec arguments, Claude Code dispatch and dogfooded edges) is over on [the main LGND blog](https://lgnd.ai/resources/code-assistant). This post is about what playing the game actually teaches.
 
 ## What Clay sees that we don't
 
