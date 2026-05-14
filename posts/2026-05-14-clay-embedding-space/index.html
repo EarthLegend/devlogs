@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-de84f8d6bb715db06a919283c2d1e787.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-c3ab6e2df469e894a5aed8e5b798b760.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-33e03ce25f56d4ed60f1aea7ff04c3ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -165,15 +165,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#playing-inside-clays-embedding-space" id="toc-playing-inside-clays-embedding-space" class="nav-link active" data-scroll-target="#playing-inside-clays-embedding-space">Playing Inside Clay’s Embedding Space</a>
-  <ul class="collapse">
+  <li><a href="#section" id="toc-section" class="nav-link active" data-scroll-target="#section"></a></li>
   <li><a href="#chipmatch" id="toc-chipmatch" class="nav-link" data-scroll-target="#chipmatch">ChipMatch</a></li>
   <li><a href="#what-clay-sees-that-we-dont" id="toc-what-clay-sees-that-we-dont" class="nav-link" data-scroll-target="#what-clay-sees-that-we-dont">What Clay sees that we don’t</a></li>
   <li><a href="#what-the-difficulty-modes-are-doing" id="toc-what-the-difficulty-modes-are-doing" class="nav-link" data-scroll-target="#what-the-difficulty-modes-are-doing">What the difficulty modes are doing</a></li>
   <li><a href="#what-the-toy-actually-teaches" id="toc-what-the-toy-actually-teaches" class="nav-link" data-scroll-target="#what-the-toy-actually-teaches">What the toy actually teaches</a></li>
   <li><a href="#where-this-leads" id="toc-where-this-leads" class="nav-link" data-scroll-target="#where-this-leads">Where this leads</a></li>
   <li><a href="#play" id="toc-play" class="nav-link" data-scroll-target="#play">Play</a></li>
-  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/EarthLegend/devlogs/edit/main/posts/2026-05-14-clay-embedding-space/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/EarthLegend/devlogs/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -222,8 +220,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="playing-inside-clays-embedding-space" class="level1">
-<h1>Playing Inside Clay’s Embedding Space</h1>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
 <p>The query is an aerial chip from California’s Central Valley: a block of orchards in various stages of growth, much of the frame brown soil because many of the orchards are still early-stage with very small trees. A road runs north-south along the left edge. Of the six candidates, two are agricultural. One (C1) shows two fields — the larger brown and empty, the smaller green — with a few houses and roads scattered around. The other (C2) shows three larger orchards of bushier, greener trees, likely a different species, with a touch of suburban housing nearby.</p>
 <p>Which is most similar?</p>
 <div class="quarto-figure quarto-figure-center">
@@ -235,6 +233,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The intuitive answer is the two-fields candidate. Both the query and that candidate are agricultural scenes dominated by bare-ground-coloured pixels — most of each frame is brown. The bushy orchard, by contrast, is mostly green; at a glance it <em>feels</em> more different.</p>
 <p>Clay’s answer is the orchards.</p>
 <p>That’s the thing this post is about. Clay sees that the query is an orchard, and that the mature orchard candidate is also an orchard, and that this matters more than any pixel-level resemblance to the two-fields candidate. The embedding is encoding something semantic — <em>what kind of place this is</em>, not just <em>what colours are in this image</em> — and you can feel that by playing.</p>
+</section>
 <section id="chipmatch" class="level2">
 <h2 class="anchored" data-anchor-id="chipmatch">ChipMatch</h2>
 <p>ChipMatch is the small game I built to give people a hands-on intuition for embeddings. The mechanic is simple. You get a query thumbnail and six candidates. Pick the one with the highest cosine similarity to the query in Clay v1.5 embedding space. Three points for the closest, two for the second, one for the third, nothing for the rest. Ten rounds. Three difficulty modes. There’s a leaderboard.</p>
@@ -302,7 +301,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <!-- -->
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -794,7 +792,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">  - "assets/chipmatch_hero.jpg"</span></span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu"># Playing Inside Clay's Embedding Space</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>##</span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>The query is an aerial chip from California's Central Valley: a block of orchards in various stages of growth, much of the frame brown soil because many of the orchards are still early-stage with very small trees. A road runs north-south along the left edge. Of the six candidates, two are agricultural. One (C1) shows two fields — the larger brown and empty, the smaller green — with a few houses and roads scattered around. The other (C2) shows three larger orchards of bushier, greener trees, likely a different species, with a touch of suburban housing nearby.</span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
