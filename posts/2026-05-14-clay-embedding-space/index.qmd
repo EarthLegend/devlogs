@@ -4,7 +4,7 @@ subtitle: ""
 date: 2026-05-14
 author: "Samuel Barrett"
 categories: [embeddings, foundation-models, clay, probing]
-description: "This post shows that Clay embeddings do contain semantic information like location, size, orientation, and count. And the mechanism to scale this retrieval to planetary scale, without agents or reading pixels."
+description: "Why Clay picks the mature orchard over the brown field — and what that tells you about embeddings."
 image: "assets/chipmatch_hero.jpg"
 page-layout: full
 execute:
@@ -18,15 +18,13 @@ resources:
   - "assets/chipmatch_hero.jpg"
 ---
 
-
-
 # Playing Inside Clay's Embedding Space
 
 The query is an aerial chip from California's Central Valley: a block of orchards in various stages of growth, much of the frame brown soil because many of the orchards are still early-stage with very small trees. A road runs north-south along the left edge. Of the six candidates, two are agricultural. One (C1) shows two fields — the larger brown and empty, the smaller green — with a few houses and roads scattered around. The other (C2) shows three larger orchards of bushier, greener trees, likely a different species, with a touch of suburban housing nearby.
 
 Which is most similar?
 
-![Query: a Central Valley orchard block, mostly bare soil. Candidates include three forested chips, a two-fields agricultural scene, and a mature bushy orchard. Clay scores the mature orchard most similar.](round_orchard.jpg)
+![Query: a Central Valley orchard block, mostly bare soil. Candidates include three forested chips, a two-fields agricultural scene, and a mature bushy orchard. Clay scores the mature orchard most similar.](assets/round_orchard.jpg)
 
 The intuitive answer is the two-fields candidate. Both the query and that candidate are agricultural scenes dominated by bare-ground-coloured pixels — most of each frame is brown. The bushy orchard, by contrast, is mostly green; at a glance it *feels* more different.
 
@@ -40,7 +38,7 @@ ChipMatch is the small game I built to give people a hands-on intuition for embe
 
 Three rounds are free with no signup needed. After that you grab a free LGND API key and keep playing on your own quota. The chips are all NAIP imagery from California — high-resolution aerial photos — embedded with [Clay v1.5](https://madewithclay.org/).
 
-The build story (mountain walks, MCP-assisted spec arguments, Claude Code dispatch and dogfooded edges) is over on [the main blog]({MAIN_POST_URL}). This post is about what playing the game actually teaches.
+The build story (mountain walks, MCP-assisted spec arguments, Claude Code dispatch and dogfooded edges) is over on [the main blog]({https://lgnd.ai/resources/code-assistant}). This post is about what playing the game actually teaches.
 
 ## What Clay sees that we don't
 
@@ -48,19 +46,19 @@ Four worked examples in what Clay attends to when it decides one place is like a
 
 **The canal.** Query: a straight canal running diagonally across an arid landscape, a dirt track alongside on the southern bank, perhaps a dozen scattered individual trees in otherwise bare ground. Of the six candidates, one matches almost component for component — a similar canal, a similar dirt track, a similar number and bushiness of trees, the same arid background. The others vary more: some have continuous woodlands, one has no water body at all, none has the same orientation or structure of canal. This one is unambiguous; Clay finds it cleanly. Worth starting here because it shows the embedding doing the obvious thing right. The cases that follow are where it gets interesting.
 
-![Query: a straight canal across arid ground with a dirt track and scattered trees. Clay finds the candidate that matches it almost component for component.](round_canal.jpg)
+![Query: a straight canal across arid ground with a dirt track and scattered trees. Clay finds the candidate that matches it almost component for component.](assets/round_canal.jpg)
 
 **Forest with houses.** Query: dense woodland with scattered houses among the trees and a couple of roads, almost no open ground. Two candidates are both forested, with broadly similar amounts of tree cover at first glance. Look closer and they're quite different scenes. One is mostly trees with bare rocky openings, a single faint trail, no houses or roads. The other has patchier woodland with grassy openings, distinct roads, and houses scattered through the trees. Clay scores the second distinctly higher. The semantic configuration — forest with roads and scattered housing — is what's making the difference, not the first-look impression of tree cover.
 
-![Query: dense woodland with scattered houses and a couple of roads. Clay favours the candidate with patchier woodland, distinct roads, and houses among the trees over the visually similar but human-empty forest.](round_forest_houses.jpg)
+![Query: dense woodland with scattered houses and a couple of roads. Clay favours the candidate with patchier woodland, distinct roads, and houses among the trees over the visually similar but human-empty forest.](assets/round_forest_houses.jpg)
 
 **Scrubby with a faint trail.** Query: an arid scrubby landscape, undulating, no obvious infrastructure. All candidates are similarly scrubby — there isn't much to grab onto. The differences between them are subtle: minor variations in vegetation density and the shape of the terrain. One has a faint trail running through it. The trail is hard to see at first glance; you might miss it. Clay doesn't miss it. That candidate wins, and by a meaningful margin. The trail is what makes that scene distinct from its peers — a tiny mark of human presence in otherwise undifferentiated scrubland — and Clay sees it. Clay's attention can follow what differentiates a scene from its neighbours, even when that feature occupies almost no pixels.
 
-![Query: arid scrubby terrain with no obvious infrastructure. The candidates are all similarly scrubby; the winner is distinguished only by a faint trail running through it.](round_scrubby_trail.jpg)
+![Query: arid scrubby terrain with no obvious infrastructure. The candidates are all similarly scrubby; the winner is distinguished only by a faint trail running through it.](assets/round_scrubby_trail.jpg)
 
 **Semi-desert with dirt tracks.** Query: shrubland on undulating terrain with a dirt track running through it. The candidates are all in similar terrain with dirt tracks of varying character. The temptation, given the lesson from the trail example, is to find the candidate with the most similar road shape. *I picked that one.* Clay didn't. Clay went for the candidate whose undulating terrain pattern was the most similar of the six — closer hill structure and vegetation density to the query — even though its road shape was different from the query's. I got this one wrong. And the lesson isn't *infrastructure is more important* or *terrain is more important*; it's that the embedding's weighting of features isn't reducible to a tidy hierarchy. Sometimes structure wins, sometimes texture, sometimes a single subtle line. The reasoning has its own logic, and even a practitioner can't always predict which feature will dominate.
 
-![Query: shrubland on undulating terrain with a dirt track. Tempting to pick the candidate with the most similar road; Clay weights terrain pattern higher and goes for a different chip.](round_semi_desert.jpg)
+![Query: shrubland on undulating terrain with a dirt track. Tempting to pick the candidate with the most similar road; Clay weights terrain pattern higher and goes for a different chip.](assets/round_semi_desert.jpg)
 
 ## What the difficulty modes are doing
 
