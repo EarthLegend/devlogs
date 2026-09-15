@@ -1,0 +1,19 @@
+# Config for the secret-scan workflow (.github/workflows/secret-scan.yml).
+#
+# We keep gitleaks' full built-in ruleset and only add path allowlists for post
+# assets that are binary or high-entropy by nature (cached embedding arrays,
+# rendered figures, satellite chips). Those files hold no source code, so
+# allowlisting them can't mask a real key — it just removes future false
+# positives. We deliberately do NOT allowlist the JSON/GeoJSON data files or the
+# notebooks: a real key pasted there is exactly what we want this scan to catch.
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Non-secret post assets (binary data, not source)"
+paths = [
+  '''.*\.npz$''',
+  '''.*\.png$''',
+  '''.*\.jpg$''',
+]
